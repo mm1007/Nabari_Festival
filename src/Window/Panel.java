@@ -1,0 +1,49 @@
+package Window;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+
+import javax.swing.JPanel;
+
+public class Panel
+{
+
+	public JPanel Panel;
+
+	public Panel()
+	{
+		this.Panel = new JPanel();
+	}
+
+	public void setBounds(int x, int y, int w, int h)
+	{
+		this.Panel.setBounds(x, y, w, h);
+	}
+
+	public void setVisible(boolean visible)
+	{
+		this.Panel.setVisible(visible);
+	}
+
+	public void setBackground(Color color)
+	{
+		this.Panel.setBackground(color);
+	}
+
+	public void add(Component add, Object contains)
+	{
+		this.Panel.add(add, contains);
+	}
+
+	public void setLayoutNull()
+	{
+		this.Panel.setLayout(null);
+	}
+
+	public void setPreferredSize(int w, int h)
+	{
+		this.Panel.setPreferredSize(new Dimension(w, h));
+	}
+
+}
