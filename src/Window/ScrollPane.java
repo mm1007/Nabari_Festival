@@ -37,4 +37,14 @@ public class ScrollPane
 		this.ScrollPane.setPreferredSize(new Dimension(w, h));
 	}
 
+	public void setValueVertical(int scroll)
+	{
+		this.ScrollPane.getVerticalScrollBar().setValue(scroll);
+	}
+
+	public void setValueHorizontal(int scroll)
+	{
+		this.ScrollPane.getHorizontalScrollBar().setValue(scroll);
+	}
+
 }

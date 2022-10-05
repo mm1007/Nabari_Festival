@@ -37,6 +37,8 @@ public class Elements implements LogListener
 		Log.CallMethod("setCloseOp", Game, JFrame.EXIT_ON_CLOSE);
 		Log.CallMethod("setResizable", Game, false);
 		Log.CallMethod("setLayoutNull", Game);
+		Log.CallMethod("add", Game, Boot.canvas, BorderLayout.CENTER);
+		Log.CallMethod("addKeyListener", Game, Boot.key);
 		Log.CallMethod("setVisible", Game, true);
 
 		this.DevScreen = new Frame();
@@ -58,13 +60,16 @@ public class Elements implements LogListener
 		Log.CallMethod("setViewport", DevLabelScroll, DevLabel.label);
 		Log.CallMethod("setBackground", DevLabelScroll, Color.black);
 		Log.CallMethod("add", DevPanel, DevLabelScroll.ScrollPane, BorderLayout.CENTER);
+		DevLabelScroll.ScrollPane.getVerticalScrollBar().addAdjustmentListener(e ->
+		{
+			e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+		});
 		Log.CallMethod("add", DevScreen, DevPanel.Panel, BorderLayout.CENTER);
 	}
 
 	@Override
 	public void ChangedLog(String log)
 	{
-		System.out.println(log);
 		String text = "<html>" + log + "</html>";
 
 		if (DevLabel != null)

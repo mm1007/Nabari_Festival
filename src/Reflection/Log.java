@@ -13,7 +13,7 @@ public class Log
 
 	public static String Log = "";
 
-	public static void CallMethod(String MethodName, Object Instance, Object... argsInstanceAndargs)
+	public static void CallMethod(String MethodName, Object Instance, Object... args)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException
 	{
 		if (Instance == null)
@@ -21,7 +21,10 @@ public class Log
 		for (Method var : Instance.getClass().getMethods()) {
 			if (!(var.getName().equals(MethodName)))
 				continue;
-			var.invoke(Instance, argsInstanceAndargs);
+			if (args != null)
+				var.invoke(Instance, args);
+			else
+				var.invoke(Instance);
 			Log += "メソッドを呼び出しました -> " + var.getDeclaringClass().getName() + "." + var.getName() + "()" + "<br/>";
 			for (LogListener Listener : ELL.getListeners(LogListener.class))
 				Listener.ChangedLog(Log);

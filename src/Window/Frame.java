@@ -2,6 +2,7 @@ package Window;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
@@ -53,6 +54,16 @@ public class Frame
 	public void setLayoutNull()
 	{
 		this.frame.setLayout(null);
+	}
+
+	public void addKeyListener(KeyListener add)
+	{
+		this.frame.addKeyListener(add);
+	}
+
+	public void removeKeyListener(KeyListener remove)
+	{
+		this.frame.addKeyListener(remove);
 	}
 
 }

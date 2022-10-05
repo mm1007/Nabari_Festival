@@ -3,6 +3,8 @@ package Main;
 import javax.swing.UIManager;
 
 import Game.Canvas;
+import Game.Sys;
+import Game.Timer;
 import Reflection.Log;
 import Window.Elements;
 
@@ -15,10 +17,16 @@ public class Boot
 	public final static int DEV_WIDTH = 500;
 	public final static int DEV_HEIGHT = 500;
 
+	public final static int FPlayerX = WIDTH / 2;
+	public final static int FPlayerY = (int) (HEIGHT * 0.8);
+
 	private final static String SYSTEM_DEF = UIManager.getSystemLookAndFeelClassName();
 
+	public static Sys sys;
+	public static Key key;
 	public static Canvas canvas;
 	public static Elements elements;
+	public static Timer timer;
 
 	public static void main(String[] args) throws Exception
 	{
@@ -26,11 +34,15 @@ public class Boot
 		UIManager.setLookAndFeel(SYSTEM_DEF);
 
 		//Create Instance
+		sys = new Sys();
+		key = new Key();
+		timer = new Timer();
 		canvas = new Canvas(WIDTH, HEIGHT);
 		elements = new Elements();
 
 		//
 		Log.CallMethod("createElement", elements);
+		Log.CallMethod("createGame", sys);
 	}
 
 }

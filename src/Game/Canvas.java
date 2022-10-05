@@ -1,5 +1,6 @@
 package Game;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.EventListener;
@@ -7,7 +8,10 @@ import java.util.EventListener;
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
-public class Canvas extends JPanel
+import Game.Timer.TimerListener;
+import Main.Boot;
+
+public class Canvas extends JPanel implements TimerListener
 {
 
 	protected EventListenerList ELL = new EventListenerList();
@@ -22,6 +26,10 @@ public class Canvas extends JPanel
 	{
 		this.WIDTH = Width;
 		this.HEIGHT = Height;
+
+		setBounds(0, 0, Boot.WIDTH, Boot.HEIGHT);
+
+		Boot.timer.addTimerListener(this);
 	}
 
 	public void addPaintListener(PaintListener add)
@@ -40,18 +48,32 @@ public class Canvas extends JPanel
 		this.offImage = createImage(WIDTH, HEIGHT);
 		this.offGraphics = offImage.getGraphics();
 
-		for (PaintListener paintListener : ELL.getListeners(PaintListener.class)) {
+		offGraphics.setColor(Color.black);
+		offGraphics.fillRect(0, 0, WIDTH, HEIGHT);
+
+		for (PaintListener paintListener : this.ELL.getListeners(PaintListener.class)) {
 			paintListener.Painted(offGraphics);
 		}
 
 		g.drawImage(offImage, 0, 0, null);
 	}
 
+	@Override
+	public void update(Graphics g)
+	{
+		paintComponent(g);
+	}
+
 	interface PaintListener extends EventListener
 	{
-
 		public void Painted(Graphics g);
+	}
 
+	@Override
+	public void TimerEvent()
+	{
+		// TODO 自動生成されたメソッド・スタブ
+		repaint();
 	}
 
 }
