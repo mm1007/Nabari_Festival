@@ -33,7 +33,7 @@ public class Elements implements LogListener
 	{
 		this.Game = new Frame();
 		Log.CallMethod("setBounds", Game, Boot.DEV_WIDTH, 0, Boot.WIDTH, Boot.HEIGHT);
-		Log.CallMethod("setWindowName", Game, "プログラミング体験");
+		Log.CallMethod("setWindowName", Game, "ゲーム画面");
 		Log.CallMethod("setCloseOp", Game, JFrame.EXIT_ON_CLOSE);
 		Log.CallMethod("setResizable", Game, false);
 		Log.CallMethod("setLayoutNull", Game);
@@ -43,7 +43,7 @@ public class Elements implements LogListener
 
 		this.DevScreen = new Frame();
 		Log.CallMethod("setBounds", DevScreen, 0, 0, Boot.DEV_WIDTH, Boot.DEV_HEIGHT);
-		Log.CallMethod("setWindowName", DevScreen, "Developer");
+		Log.CallMethod("setWindowName", DevScreen, "メソッド履歴");
 		Log.CallMethod("setCloseOp", DevScreen, JFrame.DO_NOTHING_ON_CLOSE);
 		Log.CallMethod("setResizable", DevScreen, false);
 		//Log.CallMethod("setLayoutNull", DevScreen);
@@ -52,15 +52,15 @@ public class Elements implements LogListener
 		DevPanel = new Panel();
 		DevLabel = new Label();
 		DevLabelScroll = new ScrollPane();
-		Log.CallMethod("setBounds", DevPanel, -3, 0, Boot.DEV_WIDTH, Boot.DEV_HEIGHT);
-		Log.CallMethod("setBounds", DevLabel, 0, 0, Boot.DEV_WIDTH, Boot.DEV_HEIGHT);
-		Log.CallMethod("setBounds", DevLabelScroll, 0, 0, Boot.DEV_WIDTH - 10, Boot.DEV_HEIGHT - 20);
-		Log.CallMethod("setFont", DevLabel, DevFont);
-		Log.CallMethod("setForeground", DevLabel, Color.green);
-		Log.CallMethod("setViewport", DevLabelScroll, DevLabel.label);
-		Log.CallMethod("setBackground", DevLabelScroll, Color.black);
-		Log.CallMethod("add", DevPanel, DevLabelScroll.ScrollPane, BorderLayout.CENTER);
-		Log.CallMethod("add", DevScreen, DevPanel.Panel, BorderLayout.CENTER);
+		Log.CallMethodNoThread("setBounds", DevPanel, -3, 0, Boot.DEV_WIDTH, Boot.DEV_HEIGHT);
+		Log.CallMethodNoThread("setBounds", DevLabel, 0, 0, Boot.DEV_WIDTH, Boot.DEV_HEIGHT);
+		Log.CallMethodNoThread("setBounds", DevLabelScroll, 0, 0, Boot.DEV_WIDTH - 10, Boot.DEV_HEIGHT - 20);
+		Log.CallMethodNoThread("setFont", DevLabel, DevFont);
+		Log.CallMethodNoThread("setForeground", DevLabel, Color.green);
+		Log.CallMethodNoThread("setViewport", DevLabelScroll, DevLabel.label);
+		Log.CallMethodNoThread("setBackground", DevLabelScroll, Color.black);
+		Log.CallMethodNoThread("add", DevPanel, DevLabelScroll.ScrollPane, BorderLayout.CENTER);
+		Log.CallMethodNoThread("add", DevScreen, DevPanel.Panel, BorderLayout.CENTER);
 	}
 
 	@Override

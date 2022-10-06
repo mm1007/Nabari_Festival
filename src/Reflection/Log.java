@@ -16,21 +16,52 @@ public class Log
 	public static void CallMethod(String MethodName, Object Instance, Object... args)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException
 	{
-		if (Instance == null)
-			return;
-		for (Method var : Instance.getClass().getMethods()) {
-			if (!(var.getName().equals(MethodName)))
-				continue;
-			if (args != null)
-				var.invoke(Instance, args);
-			else
-				var.invoke(Instance);
-			Log += "メソッドを呼び出しました -> " + var.getDeclaringClass().getName() + "." + var.getName() + "()" + "<br/>";
-			for (LogListener Listener : ELL.getListeners(LogListener.class))
-				Listener.ChangedLog(Log);
-			return;
+		Thread thread = new Thread(() ->
+		{
+			try {
+				if (Instance == null)
+					return;
+				for (Method var : Instance.getClass().getMethods()) {
+					if (!(var.getName().equals(MethodName)))
+						continue;
+					if (args != null)
+						var.invoke(Instance, args);
+					else
+						var.invoke(Instance);
+					Log += "メソッドを呼び出しました -> " + var.getDeclaringClass().getName() + "." + var.getName() + "()"
+							+ "<br/>";
+					for (LogListener Listener : ELL.getListeners(LogListener.class))
+						Listener.ChangedLog(Log);
+					return;
+				}
+			} catch (Exception e) {
+
+			}
+		});
+		thread.start();
+	}
+
+	public static void CallMethodNoThread(String MethodName, Object Instance, Object... args)
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException
+	{
+		try {
+			if (Instance == null)
+				return;
+			for (Method var : Instance.getClass().getMethods()) {
+				if (!(var.getName().equals(MethodName)))
+					continue;
+				if (args != null)
+					var.invoke(Instance, args);
+				else
+					var.invoke(Instance);
+				Log += "メソッドを呼び出しました -> " + var.getDeclaringClass().getName() + "." + var.getName() + "()"
+						+ "<br/>";
+				for (LogListener Listener : ELL.getListeners(LogListener.class))
+					Listener.ChangedLog(Log);
+				return;
+			}
+		} catch (Exception e) {
 		}
-		throw new NoSuchMethodException();
 	}
 
 	public static void addLogListener(LogListener add)

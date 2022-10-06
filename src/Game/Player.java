@@ -14,7 +14,7 @@ import Reflection.Log;
 public class Player implements TimerListener, PaintListener
 {
 
-	private final int PlayerSpeed = 15;
+	private final int PlayerSpeed = 10;
 
 	public Array<Ammo> AmmoList = new Array<Ammo>();
 
@@ -50,17 +50,18 @@ public class Player implements TimerListener, PaintListener
 				Log.CallMethod("movePlayer", Boot.sys.player, PlayerSpeed);
 			if (Key.Key[KeyEvent.VK_SPACE] && Interval == 0) {
 				Interval = INTERVAL;
-				Log.CallMethod("add", AmmoList, new Ammo(PlayerX, PlayerY, AMMOSPEED));
+				Log.CallMethod("add", AmmoList, new Ammo(PlayerX, PlayerY - 30, AMMOSPEED, Color.blue));
 			}
 			if (Interval > 0)
 				Interval--;
 			var time = 0;
 			for (Ammo move : AmmoList.List) {
 				move.move();
-				if (move.AmmoY < 0)
+				if (move.AmmoY < 0) {
+					Log.CallMethod("remove", move);
 					Log.CallMethod("remove", AmmoList, time);
+				}
 				time++;
-				//Log.CallMethod("move", move);
 			}
 		} catch (Exception e) {
 
@@ -72,8 +73,11 @@ public class Player implements TimerListener, PaintListener
 	{
 		// TODO 自動生成されたメソッド・スタブ
 		g.setColor(Color.green);
-		g.fillRect(PlayerX - 30, PlayerY - 30, 60, 30);
-		g.fillRect(PlayerX - 15, PlayerY - 50, 30, 30);
+		g.fillRect(PlayerX - 25, PlayerY - 25, 50, 20);
+		g.fillRect(PlayerX - 10, PlayerY - 45, 20, 20);
+		for (Ammo draw : AmmoList.List) {
+			draw.draw(g);
+		}
 	}
 
 }
