@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 
 import Game.Canvas.PaintListener;
 import Game.Timer.TimerListener;
+import Main.Array;
 import Main.Boot;
 import Main.Key;
 import Reflection.Log;
@@ -14,6 +15,12 @@ public class Player implements TimerListener, PaintListener
 {
 
 	private final int PlayerSpeed = 15;
+
+	public Array<Ammo> AmmoList = new Array<Ammo>();
+
+	public final int INTERVAL = 30;
+	public int Interval = 0;
+	public final int AMMOSPEED = 10;
 
 	public int PlayerX;
 	public int PlayerY;
@@ -41,6 +48,20 @@ public class Player implements TimerListener, PaintListener
 				Log.CallMethod("movePlayer", Boot.sys.player, -PlayerSpeed);
 			if (Key.Key[KeyEvent.VK_RIGHT])
 				Log.CallMethod("movePlayer", Boot.sys.player, PlayerSpeed);
+			if (Key.Key[KeyEvent.VK_SPACE] && Interval == 0) {
+				Interval = INTERVAL;
+				Log.CallMethod("add", AmmoList, new Ammo(PlayerX, PlayerY, AMMOSPEED));
+			}
+			if (Interval > 0)
+				Interval--;
+			var time = 0;
+			for (Ammo move : AmmoList.List) {
+				move.move();
+				if (move.AmmoY < 0)
+					Log.CallMethod("remove", AmmoList, time);
+				time++;
+				//Log.CallMethod("move", move);
+			}
 		} catch (Exception e) {
 
 		}

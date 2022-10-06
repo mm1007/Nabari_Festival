@@ -60,10 +60,6 @@ public class Elements implements LogListener
 		Log.CallMethod("setViewport", DevLabelScroll, DevLabel.label);
 		Log.CallMethod("setBackground", DevLabelScroll, Color.black);
 		Log.CallMethod("add", DevPanel, DevLabelScroll.ScrollPane, BorderLayout.CENTER);
-		DevLabelScroll.ScrollPane.getVerticalScrollBar().addAdjustmentListener(e ->
-		{
-			e.getAdjustable().setValue(e.getAdjustable().getMaximum());
-		});
 		Log.CallMethod("add", DevScreen, DevPanel.Panel, BorderLayout.CENTER);
 	}
 
@@ -74,6 +70,10 @@ public class Elements implements LogListener
 
 		if (DevLabel != null)
 			DevLabel.setText(text);
+		if (DevLabelScroll != null) {
+			DevLabelScroll.ScrollPane.getVerticalScrollBar()
+					.setValue(DevLabelScroll.ScrollPane.getVerticalScrollBar().getMaximum());
+		}
 	}
 
 }
