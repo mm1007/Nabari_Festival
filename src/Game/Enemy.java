@@ -10,12 +10,8 @@ import Main.Array;
 import Main.Boot;
 import Reflection.Log;
 
-public class Enemy implements PaintListener, TimerListener
+public class Enemy extends Entity implements PaintListener, TimerListener
 {
-
-	public int EnemyX, EnemyY;
-
-	public Array<Ammo> AmmoList = new Array<Ammo>();
 
 	public final int INTERVAL = new Random().nextInt(30, 60);
 	public final int AMMOSPEED = 10;
@@ -23,8 +19,8 @@ public class Enemy implements PaintListener, TimerListener
 
 	public Enemy(int EnemyX, int EnemyY)
 	{
-		this.EnemyX = EnemyX;
-		this.EnemyY = EnemyY;
+		X = EnemyX;
+		Y = EnemyY;
 
 		Boot.timer.addTimerListener(this);
 		Boot.canvas.addPaintListener(this);
@@ -40,8 +36,8 @@ public class Enemy implements PaintListener, TimerListener
 	{
 		// TODO 自動生成されたメソッド・スタブ
 		g.setColor(Color.red);
-		g.fillRect(EnemyX - 25, EnemyY - 45, 50, 20);
-		g.fillRect(EnemyX - 10, EnemyY - 25, 20, 20);
+		g.fillRect(X - 25, Y - 20, 50, 20);
+		g.fillRect(X - 10, Y, 20, 20);
 		for (Ammo draw : AmmoList.List) {
 			draw.draw(g);
 		}
@@ -54,7 +50,8 @@ public class Enemy implements PaintListener, TimerListener
 		try {
 			if (Interval == 0) {
 				Interval = INTERVAL;
-				Log.CallMethod("add", AmmoList, new Ammo(EnemyX, EnemyY, -AMMOSPEED, Color.red));
+				var ammo = new Ammo(X, Y, -AMMOSPEED, Color.red);
+				Log.CallMethod("add", AmmoList, ammo);
 			}
 			if (Interval > 0) {
 				Interval--;
@@ -69,7 +66,7 @@ public class Enemy implements PaintListener, TimerListener
 				time++;
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 

@@ -22,11 +22,11 @@ public class Boot
 
 	private final static String SYSTEM_DEF = UIManager.getSystemLookAndFeelClassName();
 
-	public static Sys sys;
+	public static Timer timer;
 	public static Key key;
+	public static Sys sys;
 	public static Canvas canvas;
 	public static Elements elements;
-	public static Timer timer;
 
 	public static void main(String[] args) throws Exception
 	{
@@ -34,9 +34,9 @@ public class Boot
 		UIManager.setLookAndFeel(SYSTEM_DEF);
 
 		//Create Instance
+		timer = new Timer();
 		sys = new Sys();
 		key = new Key();
-		timer = new Timer();
 		canvas = new Canvas(WIDTH, HEIGHT);
 		elements = new Elements();
 

@@ -28,8 +28,7 @@ public class Log
 						var.invoke(Instance, args);
 					else
 						var.invoke(Instance);
-					Log += "メソッドを呼び出しました -> " + var.getDeclaringClass().getName() + "." + var.getName() + "()"
-							+ "<br/>";
+					Log = "CallMethod -> " + var.getDeclaringClass().getName() + "." + var.getName() + "()";
 					for (LogListener Listener : ELL.getListeners(LogListener.class))
 						Listener.ChangedLog(Log);
 					return;
@@ -54,8 +53,7 @@ public class Log
 					var.invoke(Instance, args);
 				else
 					var.invoke(Instance);
-				Log += "メソッドを呼び出しました -> " + var.getDeclaringClass().getName() + "." + var.getName() + "()"
-						+ "<br/>";
+				Log += "CallMethod -> " + var.getDeclaringClass().getName() + "." + var.getName() + "()" + "<br/>";
 				for (LogListener Listener : ELL.getListeners(LogListener.class))
 					Listener.ChangedLog(Log);
 				return;
@@ -68,14 +66,14 @@ public class Log
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException
 	{
 		CallMethod("add", ELL, LogListener.class, add);
-		//ELL.add(LogListener.class, add);
+		// ELL.add(LogListener.class, add);
 	}
 
 	public static void removeLogListener(LogListener remove)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException
 	{
 		CallMethod("remove", ELL, LogListener.class, remove);
-		//ELL.remove(LogListener.class, remove);
+		// ELL.remove(LogListener.class, remove);
 	}
 
 	public interface LogListener extends EventListener

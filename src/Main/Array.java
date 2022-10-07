@@ -22,4 +22,14 @@ public class Array<T>
 		List.remove(index);
 	}
 
+	public int size()
+	{
+		return List.size();
+	}
+
+	public T get(int index)
+	{
+		return List.get(index);
+	}
+
 }

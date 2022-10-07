@@ -4,16 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import Main.Array;
 import Main.Boot;
 import Reflection.Log;
 import Reflection.Log.LogListener;
 
 public class Elements implements LogListener
 {
-	private final Font DevFont = new Font("ＭＳ ゴシック", Font.PLAIN, 15);
+	private final Font DevFont = new Font("ＭＳ ゴシック", Font.PLAIN, 20);
+
+	private Array<String> OutputLog = new Array<String>();
 
 	public Frame Game;
 	public Frame DevScreen;
@@ -46,13 +50,13 @@ public class Elements implements LogListener
 		Log.CallMethod("setWindowName", DevScreen, "メソッド履歴");
 		Log.CallMethod("setCloseOp", DevScreen, JFrame.DO_NOTHING_ON_CLOSE);
 		Log.CallMethod("setResizable", DevScreen, false);
-		//Log.CallMethod("setLayoutNull", DevScreen);
+		// Log.CallMethod("setLayoutNull", DevScreen);
 		Log.CallMethod("setVisible", DevScreen, true);
 
 		DevPanel = new Panel();
 		DevLabel = new Label();
 		DevLabelScroll = new ScrollPane();
-		Log.CallMethodNoThread("setBounds", DevPanel, -3, 0, Boot.DEV_WIDTH, Boot.DEV_HEIGHT);
+		Log.CallMethodNoThread("setBounds", DevPanel, -1, 0, Boot.DEV_WIDTH, Boot.DEV_HEIGHT);
 		Log.CallMethodNoThread("setBounds", DevLabel, 0, 0, Boot.DEV_WIDTH, Boot.DEV_HEIGHT);
 		Log.CallMethodNoThread("setBounds", DevLabelScroll, 0, 0, Boot.DEV_WIDTH - 10, Boot.DEV_HEIGHT - 20);
 		Log.CallMethodNoThread("setFont", DevLabel, DevFont);
@@ -66,7 +70,16 @@ public class Elements implements LogListener
 	@Override
 	public void ChangedLog(String log)
 	{
-		String text = "<html>" + log + "</html>";
+		OutputLog.add(log);
+
+		var text = "<html>";
+		for (String Log : OutputLog.List) {
+			text += Log + "<br/>";
+		}
+		text += "</html>";
+
+		if (OutputLog.size() > 100)
+			OutputLog.remove(0);
 
 		if (DevLabel != null)
 			DevLabel.setText(text);
