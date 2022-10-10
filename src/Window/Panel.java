@@ -6,7 +6,7 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
-public class Panel
+public class Panel extends Component
 {
 
 	public JPanel Panel;
@@ -16,16 +16,19 @@ public class Panel
 		this.Panel = new JPanel();
 	}
 
+	@Override
 	public void setBounds(int x, int y, int w, int h)
 	{
 		this.Panel.setBounds(x, y, w, h);
 	}
 
+	@Override
 	public void setVisible(boolean visible)
 	{
 		this.Panel.setVisible(visible);
 	}
 
+	@Override
 	public void setBackground(Color color)
 	{
 		this.Panel.setBackground(color);

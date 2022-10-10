@@ -28,7 +28,7 @@ public class Log
 						var.invoke(Instance, args);
 					else
 						var.invoke(Instance);
-					Log = "CallMethod -> " + var.getDeclaringClass().getName() + "." + var.getName() + "()";
+					Log = ">" + var.getDeclaringClass().getName() + "." + var.getName() + "()";
 					for (LogListener Listener : ELL.getListeners(LogListener.class))
 						Listener.ChangedLog(Log);
 					return;
@@ -53,7 +53,7 @@ public class Log
 					var.invoke(Instance, args);
 				else
 					var.invoke(Instance);
-				Log += "CallMethod -> " + var.getDeclaringClass().getName() + "." + var.getName() + "()" + "<br/>";
+				Log = ">" + var.getDeclaringClass().getName() + "." + var.getName() + "()" + "<br/>";
 				for (LogListener Listener : ELL.getListeners(LogListener.class))
 					Listener.ChangedLog(Log);
 				return;

@@ -6,17 +6,19 @@ import java.awt.Dimension;
 
 import javax.swing.JScrollPane;
 
-public class ScrollPane
+public class ScrollPane extends Component
 {
 
 	JScrollPane ScrollPane;
 
 	public ScrollPane()
 	{
-		this.ScrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		this.ScrollPane = new JScrollPane(
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 	}
 
+	@Override
 	public void setBounds(int x, int y, int w, int h)
 	{
 		this.ScrollPane.setBounds(x, y, w, h);
@@ -27,6 +29,7 @@ public class ScrollPane
 		this.ScrollPane.setViewportView(Viewport);
 	}
 
+	@Override
 	public void setBackground(Color color)
 	{
 		this.ScrollPane.getViewport().setBackground(color);

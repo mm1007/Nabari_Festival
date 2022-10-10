@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -16,6 +15,7 @@ import Reflection.Log.LogListener;
 public class Elements implements LogListener
 {
 	private final Font DevFont = new Font("ＭＳ ゴシック", Font.PLAIN, 20);
+	private int BeforeReload = 0;
 
 	private Array<String> OutputLog = new Array<String>();
 
@@ -27,31 +27,31 @@ public class Elements implements LogListener
 	public ScrollPane DevLabelScroll;
 
 	public Elements()
-			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException
+		throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException
 	{
 		Log.addLogListener(this);
 	}
 
 	public void createElement()
-			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException
+		throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException
 	{
 		this.Game = new Frame();
-		Log.CallMethod("setBounds", Game, Boot.DEV_WIDTH, 0, Boot.WIDTH, Boot.HEIGHT);
-		Log.CallMethod("setWindowName", Game, "ゲーム画面");
-		Log.CallMethod("setCloseOp", Game, JFrame.EXIT_ON_CLOSE);
-		Log.CallMethod("setResizable", Game, false);
-		Log.CallMethod("setLayoutNull", Game);
-		Log.CallMethod("add", Game, Boot.canvas, BorderLayout.CENTER);
-		Log.CallMethod("addKeyListener", Game, Boot.key);
-		Log.CallMethod("setVisible", Game, true);
+		Log.CallMethodNoThread("setBounds", Game, Boot.DEV_WIDTH, 0, Boot.WIDTH, Boot.HEIGHT);
+		Log.CallMethodNoThread("setWindowName", Game, "ゲーム画面");
+		Log.CallMethodNoThread("setCloseOp", Game, JFrame.EXIT_ON_CLOSE);
+		Log.CallMethodNoThread("setResizable", Game, false);
+		Log.CallMethodNoThread("setLayoutNull", Game);
+		Log.CallMethodNoThread("add", Game, Boot.canvas, BorderLayout.CENTER);
+		Log.CallMethodNoThread("addKeyListener", Game, Boot.key);
+		Log.CallMethodNoThread("setVisible", Game, true);
 
 		this.DevScreen = new Frame();
-		Log.CallMethod("setBounds", DevScreen, 0, 0, Boot.DEV_WIDTH, Boot.DEV_HEIGHT);
-		Log.CallMethod("setWindowName", DevScreen, "メソッド履歴");
-		Log.CallMethod("setCloseOp", DevScreen, JFrame.DO_NOTHING_ON_CLOSE);
-		Log.CallMethod("setResizable", DevScreen, false);
-		// Log.CallMethod("setLayoutNull", DevScreen);
-		Log.CallMethod("setVisible", DevScreen, true);
+		Log.CallMethodNoThread("setBounds", DevScreen, 0, 0, Boot.DEV_WIDTH, Boot.DEV_HEIGHT);
+		Log.CallMethodNoThread("setWindowName", DevScreen, "メソッド履歴");
+		Log.CallMethodNoThread("setCloseOp", DevScreen, JFrame.DO_NOTHING_ON_CLOSE);
+		Log.CallMethodNoThread("setResizable", DevScreen, false);
+		// Log.CallMethodNoThread("setLayoutNull", DevScreen);
+		Log.CallMethodNoThread("setVisible", DevScreen, true);
 
 		DevPanel = new Panel();
 		DevLabel = new Label();
@@ -74,18 +74,21 @@ public class Elements implements LogListener
 
 		var text = "<html>";
 		for (String Log : OutputLog.List) {
-			text += Log + "<br/>";
+			text += Log + "<br/><br/>";
 		}
 		text += "</html>";
 
-		if (OutputLog.size() > 100)
+		while (OutputLog.size() > 50) {
 			OutputLog.remove(0);
+		}
 
-		if (DevLabel != null)
+		if (DevLabel != null) {
 			DevLabel.setText(text);
+			BeforeReload = Boot.timer.Frame;
+		}
 		if (DevLabelScroll != null) {
 			DevLabelScroll.ScrollPane.getVerticalScrollBar()
-					.setValue(DevLabelScroll.ScrollPane.getVerticalScrollBar().getMaximum());
+				.setValue(DevLabelScroll.ScrollPane.getVerticalScrollBar().getMaximum());
 		}
 	}
 

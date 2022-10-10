@@ -7,6 +7,7 @@ import javax.swing.event.EventListenerList;
 
 public class Timer
 {
+	public int Frame = 0;
 
 	protected EventListenerList ELL = new EventListenerList();
 
@@ -14,8 +15,8 @@ public class Timer
 
 	public Timer()
 	{
-		this.timer = new javax.swing.Timer(33, event);
-		this.timer.start();
+		this.timer = new javax.swing.Timer(10, event);
+		//this.timer.start();
 	}
 
 	public void addTimerListener(TimerListener add)
@@ -26,6 +27,11 @@ public class Timer
 	public void removeTimerListener(TimerListener remove)
 	{
 		this.ELL.remove(TimerListener.class, remove);
+	}
+
+	public void start()
+	{
+		timer.start();
 	}
 
 	ActionListener event = e ->
@@ -40,6 +46,7 @@ public class Timer
 			}
 			//listener.TimerEvent();
 		}
+		Frame++;
 	};
 
 	public interface TimerListener extends EventListener

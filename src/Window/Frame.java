@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
-public class Frame
+public class Frame extends Component
 {
 
 	public JFrame frame;
@@ -21,11 +21,13 @@ public class Frame
 		this.frame.setTitle(name);
 	}
 
+	@Override
 	public void setBounds(int x, int y, int w, int h)
 	{
 		this.frame.setBounds(x, y, w, h);
 	}
 
+	@Override
 	public void setVisible(boolean visible)
 	{
 		this.frame.setVisible(visible);
@@ -41,6 +43,7 @@ public class Frame
 		this.frame.setResizable(Resizeable);
 	}
 
+	@Override
 	public void setBackground(Color color)
 	{
 		this.frame.setBackground(color);
@@ -56,11 +59,13 @@ public class Frame
 		this.frame.setLayout(null);
 	}
 
+	@Override
 	public void addKeyListener(KeyListener add)
 	{
 		this.frame.addKeyListener(add);
 	}
 
+	@Override
 	public void removeKeyListener(KeyListener remove)
 	{
 		this.frame.addKeyListener(remove);

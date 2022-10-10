@@ -1,31 +1,28 @@
 package Game;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.awt.Image;
 
-import Game.Canvas.PaintListener;
 import Main.Array;
-import Main.Boot;
 
-public class Ammo implements PaintListener
+public class Ammo
 {
 
 	Array<Entity> CollisionList = new Array<Entity>();
 
 	int AmmoX, AmmoY, AmmoSpeed;
-	int AmmoW = 10;
-	int AmmoH = 10;
-	Color color;
+	int AmmoW;
+	int AmmoH;
+	Image Tex;
 
-	public Ammo(int AmmoX, int AmmoY, int AmmoSpeed, Color color)
+	public Ammo(int AmmoX, int AmmoY, int AmmoSpeed, Image Tex)
 	{
 		this.AmmoX = AmmoX;
 		this.AmmoY = AmmoY;
 		this.AmmoSpeed = AmmoSpeed;
-		this.color = color;
+		this.Tex = Tex;
+		this.AmmoW = Tex.getWidth(null);
+		this.AmmoH = Tex.getHeight(null);
 		// Boot.canvas.addPaintListener(this);
 	}
 
@@ -34,22 +31,9 @@ public class Ammo implements PaintListener
 		AmmoY -= AmmoSpeed;
 	}
 
-	public void remove()
-	{
-		Boot.canvas.removePaintListener(this);
-	}
-
 	public void draw(Graphics g)
 	{
-		g.setColor(this.color);
-		g.fillRect(AmmoX - 5, AmmoY - 5, 10, 10);
-	}
-
-	@Override
-	public void Painted(Graphics g)
-	{
-		g.setColor(this.color);
-		g.fillRect(AmmoX - 5, AmmoY - 5, 10, 10);
+		g.drawImage(Tex, AmmoX - AmmoW / 2, AmmoY - AmmoH / 2, null);
 	}
 
 }

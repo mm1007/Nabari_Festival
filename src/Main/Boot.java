@@ -1,5 +1,7 @@
 package Main;
 
+import java.io.File;
+
 import javax.swing.UIManager;
 
 import Game.Canvas;
@@ -10,6 +12,7 @@ import Window.Elements;
 
 public class Boot
 {
+	public final static File PATH = new File("").getAbsoluteFile();
 
 	public final static int WIDTH = 720;
 	public final static int HEIGHT = 720;
@@ -41,8 +44,10 @@ public class Boot
 		elements = new Elements();
 
 		//
-		Log.CallMethod("createElement", elements);
+		Log.CallMethodNoThread("createElement", elements);
+		Log.CallMethodNoThread("LoadTex", sys, new File(PATH + "\\data"));
 		Log.CallMethod("createGame", sys);
+		Log.CallMethodNoThread("start", timer);
 	}
 
 }

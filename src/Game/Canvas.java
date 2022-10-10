@@ -2,6 +2,7 @@ package Game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.EventListener;
 
@@ -16,7 +17,7 @@ public class Canvas extends JPanel implements TimerListener
 
 	protected EventListenerList ELL = new EventListenerList();
 
-	private Graphics offGraphics;
+	private Graphics2D offGraphics;
 	private Image offImage;
 
 	private int WIDTH;
@@ -46,7 +47,7 @@ public class Canvas extends JPanel implements TimerListener
 	public void paintComponent(Graphics g)
 	{
 		this.offImage = createImage(WIDTH, HEIGHT);
-		this.offGraphics = offImage.getGraphics();
+		this.offGraphics = (Graphics2D) offImage.getGraphics();
 
 		offGraphics.setColor(Color.black);
 		offGraphics.fillRect(0, 0, WIDTH, HEIGHT);
@@ -66,7 +67,7 @@ public class Canvas extends JPanel implements TimerListener
 
 	interface PaintListener extends EventListener
 	{
-		public void Painted(Graphics g);
+		public void Painted(Graphics2D g);
 	}
 
 	@Override
