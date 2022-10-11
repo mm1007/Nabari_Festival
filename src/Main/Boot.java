@@ -20,8 +20,11 @@ public class Boot
 	public final static int CanvasW = 720;
 	public final static int CanvasH = FrameH - 30;
 
-	public final static int DEV_WIDTH = 500;
-	public final static int DEV_HEIGHT = 500;
+	public final static int DEV_WIDTH = FrameW - CanvasW;
+	public final static int DEV_HEIGHT = 400;
+
+	public final static int ScoreW = FrameW - CanvasW;
+	public final static int ScoreH = FrameH - DEV_HEIGHT - 30;
 
 	public final static int FPlayerX = CanvasW / 2;
 	public final static int FPlayerY = (int) (CanvasH * 0.8);
@@ -37,20 +40,31 @@ public class Boot
 	public static void main(String[] args) throws Exception
 	{
 		//Set LookAndFeel
-		UIManager.setLookAndFeel(SYSTEM_DEF);
+		UIManager.setLookAndFeel(
+			SYSTEM_DEF);
 
 		//Create Instance
 		timer = new Timer();
-		sys = new Sys();
 		key = new Key();
-		canvas = new Canvas(CanvasW, CanvasH);
+		canvas = new Canvas(FrameW - CanvasW, 0, CanvasW, CanvasH);
+		sys = new Sys();
 		elements = new Elements();
 
 		//
-		Log.CallMethodNoThread("createElement", elements);
-		Log.CallMethodNoThread("LoadTex", sys, new File(PATH + "\\data"));
-		Log.CallMethod("createGame", sys);
-		Log.CallMethodNoThread("start", timer);
+		Log.CallMethodNoThread(
+			"createElement",
+			elements);
+		Log.CallMethodNoThread(
+			"LoadTex",
+			sys,
+			new File(
+				PATH + "\\data"));
+		Log.CallMethod(
+			"createGame",
+			sys);
+		Log.CallMethodNoThread(
+			"start",
+			timer);
 	}
 
 }

@@ -14,8 +14,8 @@ public class ScrollPane extends Component
 	public ScrollPane()
 	{
 		this.ScrollPane = new JScrollPane(
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	}
 
 	@Override

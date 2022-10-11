@@ -23,46 +23,69 @@ public class Canvas extends JPanel implements TimerListener
 	private int WIDTH;
 	private int HEIGHT;
 
-	public Canvas(int Width, int Height)
+	public Canvas(int x, int y, int Width, int Height)
 	{
 		this.WIDTH = Width;
 		this.HEIGHT = Height;
 
-		setBounds(Boot.FrameW - Width, 0, Width, Height);
+		setBounds(
+			x,
+			y,
+			Width,
+			Height);
 
-		Boot.timer.addTimerListener(this);
+		Boot.timer.addTimerListener(
+			this);
 	}
 
 	public void addPaintListener(PaintListener add)
 	{
-		ELL.add(PaintListener.class, add);
+		ELL.add(
+			PaintListener.class,
+			add);
 	}
 
 	public void removePaintListener(PaintListener remove)
 	{
-		ELL.remove(PaintListener.class, remove);
+		ELL.remove(
+			PaintListener.class,
+			remove);
 	}
 
 	@Override
 	public void paintComponent(Graphics g)
 	{
-		this.offImage = createImage(WIDTH, HEIGHT);
+		this.offImage = createImage(
+			WIDTH,
+			HEIGHT);
 		this.offGraphics = (Graphics2D) offImage.getGraphics();
 
-		offGraphics.setColor(Color.black);
-		offGraphics.fillRect(0, 0, WIDTH, HEIGHT);
+		offGraphics.setColor(
+			Color.black);
+		offGraphics.fillRect(
+			0,
+			0,
+			WIDTH,
+			HEIGHT);
 
-		for (PaintListener paintListener : this.ELL.getListeners(PaintListener.class)) {
-			paintListener.Painted(offGraphics);
+		for (PaintListener paintListener : this.ELL.getListeners(
+			PaintListener.class)) {
+			paintListener.Painted(
+				offGraphics);
 		}
 
-		g.drawImage(offImage, 0, 0, null);
+		g.drawImage(
+			offImage,
+			0,
+			0,
+			null);
 	}
 
 	@Override
 	public void update(Graphics g)
 	{
-		paintComponent(g);
+		paintComponent(
+			g);
 	}
 
 	interface PaintListener extends EventListener
