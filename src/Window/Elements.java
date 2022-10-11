@@ -36,7 +36,7 @@ public class Elements implements LogListener
 		throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException
 	{
 		this.Game = new Frame();
-		Log.CallMethodNoThread("setBounds", Game, Boot.DEV_WIDTH, 0, Boot.WIDTH, Boot.HEIGHT);
+		Log.CallMethodNoThread("setBounds", Game, Boot.DEV_WIDTH, 0, Boot.FrameW, Boot.FrameH);
 		Log.CallMethodNoThread("setWindowName", Game, "ゲーム画面");
 		Log.CallMethodNoThread("setCloseOp", Game, JFrame.EXIT_ON_CLOSE);
 		Log.CallMethodNoThread("setResizable", Game, false);
@@ -65,6 +65,7 @@ public class Elements implements LogListener
 		Log.CallMethodNoThread("setBackground", DevLabelScroll, Color.black);
 		Log.CallMethodNoThread("add", DevPanel, DevLabelScroll.ScrollPane, BorderLayout.CENTER);
 		Log.CallMethodNoThread("add", DevScreen, DevPanel.Panel, BorderLayout.CENTER);
+		Log.CallMethodNoThread("add", Game, DevPanel.Panel, BorderLayout.CENTER);
 	}
 
 	@Override
@@ -87,8 +88,8 @@ public class Elements implements LogListener
 			BeforeReload = Boot.timer.Frame;
 		}
 		if (DevLabelScroll != null) {
-			DevLabelScroll.ScrollPane.getVerticalScrollBar()
-				.setValue(DevLabelScroll.ScrollPane.getVerticalScrollBar().getMaximum());
+			DevLabelScroll.ScrollPane.getVerticalScrollBar().setValue(
+				DevLabelScroll.ScrollPane.getVerticalScrollBar().getMaximum());
 		}
 	}
 

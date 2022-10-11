@@ -13,7 +13,7 @@ import Reflection.Log;
 
 public class Player extends Entity implements TimerListener, PaintListener
 {
-	public final int INTERVAL = 10;
+	public final int INTERVAL = 5;
 	public int Interval = 0;
 	public final int AMMOSPEED = 20;
 
@@ -24,8 +24,8 @@ public class Player extends Entity implements TimerListener, PaintListener
 		this.Tex = Tex;
 		W = this.Tex.getWidth(null);
 		H = this.Tex.getHeight(null);
-		CollisionW = (int) (W * 0.2);
-		CollisionH = (int) (H * 0.2);
+		CollisionW = (int) (W * 0.4);
+		CollisionH = (int) (H * 0.4);
 		this.AmmoTex = AmmoTex;
 		this.EntitySpeedO = 10;
 		this.EntitySpeedS = 5;
@@ -54,13 +54,13 @@ public class Player extends Entity implements TimerListener, PaintListener
 	{
 		try {
 			// TODO 自動生成されたメソッド・スタブ
-			if (Key.Key[KeyEvent.VK_LEFT])
+			if (Key.Key[KeyEvent.VK_LEFT] && X > W / 2)
 				Log.CallMethod("moveEntityX", this, -EntitySpeed);
-			if (Key.Key[KeyEvent.VK_RIGHT])
+			if (Key.Key[KeyEvent.VK_RIGHT] && X < Boot.CanvasW - W / 2)
 				Log.CallMethod("moveEntityX", this, EntitySpeed);
-			if (Key.Key[KeyEvent.VK_UP])
+			if (Key.Key[KeyEvent.VK_UP] && Y > H / 2)
 				Log.CallMethod("moveEntityY", this, -EntitySpeed);
-			if (Key.Key[KeyEvent.VK_DOWN])
+			if (Key.Key[KeyEvent.VK_DOWN] && Y < Boot.CanvasH - H / 2)
 				Log.CallMethod("moveEntityY", this, EntitySpeed);
 			if (Key.Key[KeyEvent.VK_Z] && Interval == 0) {
 				Interval = INTERVAL;
@@ -96,9 +96,9 @@ public class Player extends Entity implements TimerListener, PaintListener
 			draw.draw(g);
 		}
 		g.setColor(Color.green);
-		g.drawString("HP", 0, (int) (Boot.HEIGHT * 0.9));
-		g.drawRect(0, (int) (Boot.HEIGHT * 0.9), 100, 20);
-		g.fillRect(0, (int) (Boot.HEIGHT * 0.9), 100 * Health / MaxHealth, 20);
+		g.drawString("HP", 0, (int) (Boot.CanvasH * 0.9));
+		g.drawRect(20, (int) (Boot.CanvasH * 0.9), 100, 20);
+		g.fillRect(20, (int) (Boot.CanvasH * 0.9), 100 * Health / MaxHealth, 20);
 	}
 
 }

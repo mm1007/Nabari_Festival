@@ -28,7 +28,7 @@ public class Canvas extends JPanel implements TimerListener
 		this.WIDTH = Width;
 		this.HEIGHT = Height;
 
-		setBounds(0, 0, Boot.WIDTH, Boot.HEIGHT);
+		setBounds(Boot.FrameW - Width, 0, Width, Height);
 
 		Boot.timer.addTimerListener(this);
 	}

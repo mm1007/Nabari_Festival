@@ -103,8 +103,10 @@ public class Sys implements TimerListener
 			for (Enemy collision : enemy_list.List) {
 				int[] result = collision.collision(player.AmmoList.List);
 				if (result[0] == 1) {
+					Log.CallMethod("changeHealth", collision, -10);
 					Log.CallMethod("removeAmmo", player, result[1]);
-					Log.CallMethod("destroy", enemy_list, time);
+					if (collision.Health <= 0)
+						Log.CallMethod("destroy", enemy_list, time);
 					break;
 				}
 				time++;
@@ -113,6 +115,9 @@ public class Sys implements TimerListener
 			if (result[0] == 1) {
 				Log.CallMethod("remove", enemy_ammo_list, result[1]);
 				Log.CallMethod("changeHealth", player, -10);
+				if (player.Health <= 0) {
+					player.remove();
+				}
 			}
 		} catch (Exception e) {
 			//e.printStackTrace();

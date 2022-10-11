@@ -14,14 +14,17 @@ public class Boot
 {
 	public final static File PATH = new File("").getAbsoluteFile();
 
-	public final static int WIDTH = 720;
-	public final static int HEIGHT = 720;
+	public final static int FrameW = 1080;
+	public final static int FrameH = 980;
+
+	public final static int CanvasW = 720;
+	public final static int CanvasH = FrameH - 30;
 
 	public final static int DEV_WIDTH = 500;
 	public final static int DEV_HEIGHT = 500;
 
-	public final static int FPlayerX = WIDTH / 2;
-	public final static int FPlayerY = (int) (HEIGHT * 0.8);
+	public final static int FPlayerX = CanvasW / 2;
+	public final static int FPlayerY = (int) (CanvasH * 0.8);
 
 	private final static String SYSTEM_DEF = UIManager.getSystemLookAndFeelClassName();
 
@@ -40,7 +43,7 @@ public class Boot
 		timer = new Timer();
 		sys = new Sys();
 		key = new Key();
-		canvas = new Canvas(WIDTH, HEIGHT);
+		canvas = new Canvas(CanvasW, CanvasH);
 		elements = new Elements();
 
 		//

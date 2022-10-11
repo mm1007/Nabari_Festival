@@ -11,34 +11,34 @@ import Main.Array;
 import Main.Boot;
 import Reflection.Log;
 
-public class Entity implements PaintListener, TimerListener
+public abstract class Entity implements PaintListener, TimerListener
 {
-	public Array<Ammo> AmmoList = new Array<Ammo>();
-	public boolean AmmoListC = false;
+	protected Array<Ammo> AmmoList = new Array<Ammo>();
+	protected boolean AmmoListC = false;
 
-	public Font font = new Font("ＭＳ ゴシック", Font.PLAIN, 20);
+	protected Font font = new Font("ＭＳ ゴシック", Font.PLAIN, 20);
 
-	public Image Tex;
-	public Image AmmoTex;
+	protected Image Tex = null;
+	protected Image AmmoTex = null;;
 
-	public final int INTERVAL = 30;
-	public int Interval = 0;
-	public final int AMMOSPEED = 10;
+	protected int INTERVAL = 30;
+	protected int Interval = 0;
+	protected final int AMMOSPEED = 5;
 
-	public int EntitySpeedO = 5;
-	public int EntitySpeed = EntitySpeedO;
-	public int EntitySpeedS = 3;
+	protected int EntitySpeedO = 5;
+	protected int EntitySpeed = EntitySpeedO;
+	protected int EntitySpeedS = 3;
 
-	public int MaxHealth;
-	public int Health;
+	protected int MaxHealth = 100;
+	protected int Health = 100;
 
-	public int X;
-	public int Y;
+	protected int X = 0;
+	protected int Y = 0;
 
-	public int W;
-	public int H;
-	public int CollisionW;
-	public int CollisionH;
+	protected int W = 0;
+	protected int H = 0;
+	protected int CollisionW = 0;
+	protected int CollisionH = 0;
 
 	public void moveEntityX(int move)
 	{

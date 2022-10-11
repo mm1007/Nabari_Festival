@@ -22,13 +22,13 @@ public class TimeLine implements TimerListener
 			150, 0, 100, Enemy.ONLYMOVEX
 		},
 		{
-			50, Boot.WIDTH, 100, Enemy.R_ONLYMOVEX
+			50, Boot.CanvasW, 100, Enemy.R_ONLYMOVEX
 		},
 		{
-			100, Boot.WIDTH, 100, Enemy.R_ONLYMOVEX
+			100, Boot.CanvasW, 100, Enemy.R_ONLYMOVEX
 		},
 		{
-			150, Boot.WIDTH, 100, Enemy.R_ONLYMOVEX
+			150, Boot.CanvasW, 100, Enemy.R_ONLYMOVEX
 		}
 	};
 
@@ -47,11 +47,11 @@ public class TimeLine implements TimerListener
 	{
 		int[] W =
 		{
-			0, Boot.WIDTH
+			0, Boot.CanvasW
 		};
 		int[] H =
 		{
-			0, Boot.HEIGHT
+			0, Boot.CanvasH
 		};
 		Random RD = new Random();
 		for (int k = 0; k < amount; k++) {
@@ -59,21 +59,23 @@ public class TimeLine implements TimerListener
 			int X = W[RD.nextInt(2)];
 			int Y = RD.nextInt(100, H[1] / 2);
 			int MovePattern = (X == W[0]) ? Enemy.ONLYMOVEX : Enemy.R_ONLYMOVEX;
-			TimeLineList.add(new TimeLineData(Frame, X, Y, MovePattern));
+			int Health = Enemy.HealthList[0];
+			TimeLineList.add(new TimeLineData(Frame, X, Y, MovePattern, Health));
 		}
 	}
 
 	public class TimeLineData
 	{
 
-		public int Frame, X, Y, MovePattern;
+		public int Frame, X, Y, MovePattern, Health;
 
-		public TimeLineData(int Frame, int X, int Y, int MovePattern)
+		public TimeLineData(int Frame, int X, int Y, int MovePattern, int Health)
 		{
 			this.Frame = Frame;
 			this.X = X;
 			this.Y = Y;
 			this.MovePattern = MovePattern;
+			this.Health = Health;
 		}
 
 	}
@@ -91,6 +93,7 @@ public class TimeLine implements TimerListener
 					addEntity.X,
 					addEntity.Y,
 					addEntity.MovePattern,
+					addEntity.Health,
 					Boot.sys.TexIndexOf(Sys.Tex, "敵_D").image,
 					Boot.sys.TexIndexOf(Sys.Tex, "弾Red_D").image);
 				add.setAmmoList(Boot.sys.enemy_ammo_list);
