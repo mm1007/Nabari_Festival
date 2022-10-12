@@ -12,6 +12,7 @@ import Reflection.Log;
 
 public class Enemy extends Entity implements PaintListener, TimerListener
 {
+
 	public final static int[] HealthList =
 	{
 		20, 50, 80

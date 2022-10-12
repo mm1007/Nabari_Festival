@@ -39,7 +39,7 @@ public class TimeLine implements TimerListener
 		/*for (int[] TimeLine : TimeLineDataBase) {
 			TimeLineList.add(new TimeLineData(TimeLine[0], TimeLine[1], TimeLine[2], TimeLine[3]));
 		}*/
-		createRandomTimeLine(100);
+		createRandomTimeLine(50);
 		Boot.timer.addTimerListener(this);
 	}
 
@@ -57,7 +57,8 @@ public class TimeLine implements TimerListener
 		for (int k = 0; k < amount; k++) {
 			int Frame = RD.nextInt(5000);
 			int X = W[RD.nextInt(2)];
-			int Y = RD.nextInt(100, H[1] / 2);
+			int Y = RD.nextInt(100,
+				H[1] / 2);
 			int MovePattern = (X == W[0]) ? Enemy.ONLYMOVEX : Enemy.R_ONLYMOVEX;
 			int Health = Enemy.HealthList[0];
 			TimeLineList.add(new TimeLineData(Frame, X, Y, MovePattern, Health));
@@ -94,8 +95,10 @@ public class TimeLine implements TimerListener
 					addEntity.Y,
 					addEntity.MovePattern,
 					addEntity.Health,
-					Boot.sys.TexIndexOf(Sys.Tex, "敵_D").image,
-					Boot.sys.TexIndexOf(Sys.Tex, "弾Red_D").image);
+					Boot.sys.TexIndexOf(Sys.Tex,
+						"ボス_D").image,
+					Boot.sys.TexIndexOf(Sys.Tex,
+						"弾Red_D").image);
 				add.setAmmoList(Boot.sys.enemy_ammo_list);
 				Log.CallMethodNoThread(
 					"add",

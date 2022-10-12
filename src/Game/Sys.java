@@ -1,6 +1,7 @@
 package Game;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +32,8 @@ public class Sys implements TimerListener, PaintListener
 
 	public Array<Ammo> enemy_ammo_list;
 
+	public Array<EnemyDataBase> EnemyDataBaseList;
+
 	public Sys()
 	{
 		// TODO 自動生成されたコンストラクター・スタブ
@@ -57,6 +60,11 @@ public class Sys implements TimerListener, PaintListener
 		}
 	}
 
+	public void setEnemyDataBase()
+	{
+
+	}
+
 	public TexData TexIndexOf(Array<TexData> List, String name)
 	{
 		for (int k = 0, t = List.size(); k < t; k++) {
@@ -67,6 +75,20 @@ public class Sys implements TimerListener, PaintListener
 				return data;
 		}
 		return null;
+	}
+
+	public class EnemyDataBase
+	{
+		public Image Tex, AmmoTex;
+		public int MovePattern, AmmoMovePattern;
+
+		public EnemyDataBase(Image Tex, int MovePattern, Image AmmoTex, int AmmoMovePattern, int AmmoSpeed, int Health)
+		{
+			this.Tex = Tex;
+			this.AmmoTex = AmmoTex;
+			this.MovePattern = MovePattern;
+			this.AmmoMovePattern = AmmoMovePattern;
+		}
 	}
 
 	class TexData
@@ -172,7 +194,7 @@ public class Sys implements TimerListener, PaintListener
 				Log.CallMethod(
 					"changeHealth",
 					player,
-					0);
+					-10);
 				if (player.Health <= 0) {
 					player.remove();
 				}
