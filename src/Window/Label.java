@@ -17,16 +17,22 @@ public class Label extends Component
 		label = new JLabel();
 	}
 
+	@Override
 	public void setBounds(int x, int y, int w, int h)
 	{
-		this.label.setBounds(x, y, w, h);
+		this.label.setBounds(x,
+			y,
+			w,
+			h);
 	}
 
+	@Override
 	public void setVisible(boolean visible)
 	{
 		this.label.setVisible(visible);
 	}
 
+	@Override
 	public void setBackground(Color color)
 	{
 		this.label.setBackground(color);
@@ -37,6 +43,7 @@ public class Label extends Component
 		this.label.setText(text);
 	}
 
+	@Override
 	public void setFont(Font font)
 	{
 		this.label.setFont(font);
@@ -47,9 +54,15 @@ public class Label extends Component
 		this.label.setPreferredSize(new Dimension(w, h));
 	}
 
+	@Override
 	public void setForeground(Color color)
 	{
 		this.label.setForeground(color);
+	}
+
+	public void setLayoutNull()
+	{
+		this.label.setLayout(null);
 	}
 
 }

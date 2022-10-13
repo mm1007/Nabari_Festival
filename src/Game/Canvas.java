@@ -1,9 +1,11 @@
 package Game;
 
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.util.EventListener;
 
 import javax.swing.JPanel;
@@ -36,6 +38,19 @@ public class Canvas extends JPanel implements TimerListener
 
 		Boot.timer.addTimerListener(
 			this);
+	}
+
+	public static void drawCenter(Graphics g, String text, int x, int y)
+	{
+		FontMetrics fm = g.getFontMetrics();
+		Rectangle rectText = fm.getStringBounds(text,
+			g).getBounds();
+		x = x - rectText.width / 2;
+		y = y - rectText.height / 2 + fm.getMaxAscent();
+
+		g.drawString(text,
+			x,
+			y);
 	}
 
 	public void addPaintListener(PaintListener add)

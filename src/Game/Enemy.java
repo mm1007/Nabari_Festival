@@ -2,8 +2,7 @@ package Game;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.util.Random;
+import java.awt.image.BufferedImage;
 
 import Game.Canvas.PaintListener;
 import Game.Timer.TimerListener;
@@ -24,14 +23,21 @@ public class Enemy extends Entity implements PaintListener, TimerListener
 	public final static int R_ONLYMOVEX = 3;
 
 	public int MovePattern;
+	public int AmmoMovePattern;
 
-	public Enemy(int EnemyX, int EnemyY, int MovePattern, int Health, Image Tex, Image AmmoTex)
+	public Enemy(int EnemyX, int EnemyY, int MovePattern, int AmmoMovePattern, int Health, int Speed, int AmmoSpeed,
+		int AmmoInterval,
+		BufferedImage Tex,
+		BufferedImage AmmoTex)
 	{
 		X = EnemyX;
 		Y = EnemyY;
 		this.Health = Health;
 		this.Tex = Tex;
 		this.AmmoTex = AmmoTex;
+		this.EntitySpeed = Speed;
+		this.AMMOSPEED = AmmoSpeed;
+		this.INTERVAL = AmmoInterval;
 		W = this.Tex.getWidth(
 			null);
 		H = this.Tex.getHeight(
@@ -39,14 +45,9 @@ public class Enemy extends Entity implements PaintListener, TimerListener
 		CollisionW = W;
 		CollisionH = H;
 		this.MovePattern = MovePattern;
-		INTERVAL = new Random().nextInt(
-			20,
-			30);
-
-		Boot.timer.addTimerListener(
-			this);
-		Boot.canvas.addPaintListener(
-			this);
+		this.AmmoMovePattern = AmmoMovePattern;
+		Boot.timer.addTimerListener(this);
+		Boot.canvas.addPaintListener(this);
 	}
 
 	@Override
@@ -76,6 +77,7 @@ public class Enemy extends Entity implements PaintListener, TimerListener
 			if (Interval == 0) {
 				Interval = INTERVAL;
 				var ammo = new Ammo(X, Y, -AMMOSPEED, AmmoTex);
+				ammo.setMovePatturn(AmmoMovePattern);
 				Log.CallMethod(
 					"add",
 					AmmoList,
@@ -89,6 +91,15 @@ public class Enemy extends Entity implements PaintListener, TimerListener
 				for (Ammo move : AmmoList.List) {
 					move.move();
 					if (move.AmmoY > Boot.CanvasH) {
+						Log.CallMethod(
+							"remove",
+							move);
+						Log.CallMethod(
+							"remove",
+							AmmoList,
+							time);
+					}
+					if (move.AmmoX > Boot.CanvasW || move.AmmoX < 0) {
 						Log.CallMethod(
 							"remove",
 							move);
@@ -114,7 +125,7 @@ public class Enemy extends Entity implements PaintListener, TimerListener
 					EntitySpeed);
 				break;
 			case R_ONLYMOVEY:
-				moveEntityX(
+				moveEntityY(
 					-EntitySpeed);
 				break;
 			}

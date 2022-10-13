@@ -1,11 +1,10 @@
 package Game;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
@@ -14,6 +13,7 @@ import Game.Timer.TimerListener;
 import Main.Array;
 import Main.Boot;
 import Reflection.Log;
+import Window.Frame;
 
 public class Sys implements TimerListener, PaintListener
 {
@@ -26,7 +26,7 @@ public class Sys implements TimerListener, PaintListener
 
 	public TimeLine timeline;
 
-	public static Array<TexData> Tex;
+	public static HashMap<String, BufferedImage> Tex;
 
 	public Array<Enemy> enemy_list;
 
@@ -34,60 +34,122 @@ public class Sys implements TimerListener, PaintListener
 
 	public Array<EnemyDataBase> EnemyDataBaseList;
 
+	private Frame InFrame;
+	private Canvas GameCanvas;
+	private Timer GameTimer;
+
 	public Sys()
 	{
 		// TODO 自動生成されたコンストラクター・スタブ
-		Boot.canvas.addPaintListener(
-			this);
-		Boot.timer.addTimerListener(
-			this);
+	}
+
+	public void destroy()
+	{
+		InFrame.setVisible(false);
+		GameCanvas.removePaintListener(this);
+		GameTimer.removeTimerListener(this);
 	}
 
 	public void LoadTex(File DataFile) throws IOException
 	{
-		Tex = new Array<TexData>();
+		Tex = new HashMap<>();
 		for (File data : DataFile.listFiles()) {
 			var name = data.getName();
-			Tex.add(
-				new TexData(
-					name.substring(
-						0,
-						name.indexOf(
-							".")),
-					data,
-					ImageIO.read(
-						data)));
+			Tex.put(name.substring(0,
+				name.indexOf(".")),
+				ImageIO.read(data));
 		}
 	}
 
 	public void setEnemyDataBase()
 	{
-
+		EnemyDataBaseList = new Array<>();
+		EnemyDataBaseList.add(new EnemyDataBase(
+			TexIndexOf("敵_D"),
+			new int[]
+			{
+				Enemy.ONLYMOVEX, Enemy.R_ONLYMOVEX
+			},
+			TexIndexOf("弾Red_D"),
+			new int[]
+			{
+				Ammo.ONLYMOVEY
+			},
+			3,
+			60,
+			5,
+			20));
+		EnemyDataBaseList.add(new EnemyDataBase(
+			TexIndexOf("敵2_D"),
+			new int[]
+			{
+				Enemy.ONLYMOVEX, Enemy.R_ONLYMOVEX
+			},
+			TexIndexOf("弾Red_D"),
+			new int[]
+			{
+				Ammo.ONLYMOVEY
+			},
+			3,
+			60,
+			5,
+			40));
+		EnemyDataBaseList.add(new EnemyDataBase(
+			TexIndexOf("敵3_D"),
+			new int[]
+			{
+				Enemy.ONLYMOVEY, Enemy.R_ONLYMOVEY
+			},
+			TexIndexOf("弾Red_D"),
+			new int[]
+			{
+				Ammo.ONLYMOVEY
+			},
+			3,
+			60,
+			5,
+			40));
+		EnemyDataBaseList.add(new EnemyDataBase(
+			TexIndexOf("敵4_D"),
+			new int[]
+			{
+				Enemy.ONLYMOVEX, Enemy.R_ONLYMOVEX
+			},
+			TexIndexOf("弾Red_D"),
+			new int[]
+			{
+				Ammo.TRACKING
+			},
+			3,
+			100,
+			5,
+			40));
 	}
 
-	public TexData TexIndexOf(Array<TexData> List, String name)
+	public BufferedImage TexIndexOf(String name)
 	{
-		for (int k = 0, t = List.size(); k < t; k++) {
-			TexData data = List.get(
-				k);
-			if (data.name.equals(
-				name))
-				return data;
-		}
-		return null;
+		return Tex.get(name);
 	}
 
 	public class EnemyDataBase
 	{
-		public Image Tex, AmmoTex;
-		public int MovePattern, AmmoMovePattern;
+		public BufferedImage Tex, AmmoTex;
+		public int[] MovePattern, AmmoMovePattern;
+		public int AmmoSpeed, Speed, Health, AmmoInterval;
 
-		public EnemyDataBase(Image Tex, int MovePattern, Image AmmoTex, int AmmoMovePattern, int AmmoSpeed, int Health)
+		public EnemyDataBase(BufferedImage Tex, int[] MovePattern, BufferedImage AmmoTex, int[] AmmoMovePattern,
+			int AmmoSpeed, int AmmoInterval,
+			int Speed,
+			int Health)
 		{
 			this.Tex = Tex;
 			this.AmmoTex = AmmoTex;
 			this.MovePattern = MovePattern;
 			this.AmmoMovePattern = AmmoMovePattern;
+			this.AmmoSpeed = AmmoSpeed;
+			this.AmmoInterval = AmmoInterval;
+			this.Speed = Speed;
+			this.Health = Health;
 		}
 	}
 
@@ -109,28 +171,36 @@ public class Sys implements TimerListener, PaintListener
 		}
 	}
 
-	public void createGame()
-		throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-		NoSuchMethodException,
-		IOException
+	public void createGame(Frame InFrame, Canvas GameCanvas, Timer GameTimer)
 	{
-		enemy_list = new Array<Enemy>();
-		enemy_ammo_list = new Array<Ammo>();
-		score = new Score(Boot.ScoreW, Boot.ScoreH);
-		score.setPaintListener(
-			Boot.elements.UI);
+		try {
+			this.InFrame = InFrame;
+			this.GameCanvas = GameCanvas;
+			this.GameTimer = GameTimer;
+			this.InFrame.setVisible(true);
+			this.GameCanvas.setVisible(true);
+			Boot.elements.DevPanel.setVisible(true);
+			this.GameCanvas.addPaintListener(
+				this);
+			this.GameTimer.addTimerListener(
+				this);
+			enemy_list = new Array<Enemy>();
+			enemy_ammo_list = new Array<Ammo>();
+			score = new Score(Boot.ScoreW, Boot.ScoreH, Boot.elements.UI);
+			score.setPaintListener(
+				Boot.elements.UI);
 
-		BufferedImage PlayerTex = TexIndexOf(
-			Tex,
-			"自機_U").image;
-		BufferedImage AmmoTex = TexIndexOf(
-			Tex,
-			"弾Blue_U").image;
-		this.player = new Player(Boot.FPlayerX, Boot.FPlayerY, PlayerTex, AmmoTex);
-		score.setPlayer(
-			player);
-
-		this.timeline = new TimeLine();
+			BufferedImage PlayerTex = TexIndexOf(
+				"自機_U");
+			BufferedImage AmmoTex = TexIndexOf(
+				"弾Blue_D");
+			this.player = new Player(Boot.FPlayerX, Boot.FPlayerY, PlayerTex, AmmoTex);
+			score.setPlayer(player);
+			setEnemyDataBase();
+			this.timeline = new TimeLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		/*var time = 0;
 		for (int t = 0; t < 8; t++) {
@@ -150,6 +220,14 @@ public class Sys implements TimerListener, PaintListener
 			for (Ammo move : enemy_ammo_list.List) {
 				move.move();
 				if (move.AmmoY > Boot.CanvasH) {
+					Log.CallMethod(
+						"remove",
+						move);
+					Log.CallMethod(
+						"remove",
+						enemy_ammo_list,
+						time);
+				} else if (move.AmmoX > Boot.CanvasW || move.AmmoX < 0) {
 					Log.CallMethod(
 						"remove",
 						move);
@@ -200,7 +278,7 @@ public class Sys implements TimerListener, PaintListener
 				}
 			}
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 

@@ -24,7 +24,10 @@ public class Frame extends Component
 	@Override
 	public void setBounds(int x, int y, int w, int h)
 	{
-		this.frame.setBounds(x, y, w, h);
+		this.frame.setBounds(x,
+			y,
+			w,
+			h);
 	}
 
 	@Override
@@ -51,7 +54,13 @@ public class Frame extends Component
 
 	public void add(Component add, Object contains)
 	{
-		this.frame.getContentPane().add(add, contains);
+		this.frame.getContentPane().add(add,
+			contains);
+	}
+
+	public void addWOC(Component add)
+	{
+		this.frame.getContentPane().add(add);
 	}
 
 	public void setLayoutNull()
@@ -68,7 +77,7 @@ public class Frame extends Component
 	@Override
 	public void removeKeyListener(KeyListener remove)
 	{
-		this.frame.addKeyListener(remove);
+		this.frame.removeKeyListener(remove);
 	}
 
 }

@@ -1,14 +1,19 @@
 package Game;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import Main.Array;
 import Main.Boot;
+import Main.ImageMy;
 
 public class Ammo
 {
+	protected Font font = new Font("Consolas", Font.PLAIN, 15);
+
 	public final static int ONLYMOVEY = 0;
 	public final static int R_ONLYMOVEY = 1;
 	public final static int ONLYMOVEX = 2;
@@ -21,14 +26,13 @@ public class Ammo
 	int AmmoW;
 	int AmmoH;
 	int MovePattern = ONLYMOVEY;
-	Image Tex;
+	BufferedImage Tex;
 
 	Entity TrackingEntity = Boot.sys.player;
-	double Radian = Math.toRadians(
-		0);
+	double Radian = 0;
 	double RealRadian = 0;
 
-	public Ammo(int AmmoX, int AmmoY, int AmmoSpeed, Image Tex)
+	public Ammo(int AmmoX, int AmmoY, int AmmoSpeed, BufferedImage Tex)
 	{
 		this.AmmoX = AmmoX;
 		this.AmmoY = AmmoY;
@@ -39,6 +43,11 @@ public class Ammo
 		this.AmmoH = Tex.getHeight(
 			null);
 		// Boot.canvas.addPaintListener(this);
+	}
+
+	public void setRadian(double Radian)
+	{
+		this.Radian = Radian;
 	}
 
 	public void setMovePatturn(int MovePatturn)
@@ -90,30 +99,38 @@ public class Ammo
 
 	public void draw(Graphics g)
 	{
+		g.setFont(font);
+		Image Rotated;
+		if (MovePattern == TRACKING)
+			Rotated = ImageMy.getRotatedInstance(Tex,
+				Math.toRadians(Radian - Math.toRadians(90)));
+		else
+			Rotated = ImageMy.getRotatedInstance(Tex,
+				Math.toRadians(Radian));
 		g.drawImage(
-			Tex,
+			Rotated,
 			(int) AmmoX - AmmoW / 2,
 			(int) AmmoY - AmmoH / 2,
 			null);
-		g.setColor(Color.green);
+		g.setColor(new Color(Color.green.getRed(), Color.green.getGreen(), Color.green.getBlue(), 100));
 		g.drawLine(
 			(int) (Math.cos(Radian) * 50 + AmmoX),
 			(int) (Math.sin(Radian) * 50 + AmmoY),
 			(int) AmmoX,
 			(int) AmmoY);
-		g.setColor(Color.yellow);
+		g.drawString("Angle:" + (int) Math.toDegrees(Radian) + "°",
+			(int) AmmoX + 20,
+			(int) AmmoY + 20);
+		g.setColor(new Color(Color.yellow.getRed(), Color.yellow.getGreen(), Color.yellow.getBlue(), 100));
 		g.drawLine(
 			(int) (Math.cos(RealRadian) * 50 + AmmoX),
 			(int) (Math.sin(RealRadian) * 50 + AmmoY),
 			(int) AmmoX,
 			(int) AmmoY);
-		g.setColor(new Color(0, 255, 0, 60));
-		g.drawString("Angle:" + (int) Math.toDegrees(RealRadian) + "°",
-			(int) AmmoX + 20,
-			(int) AmmoY + 20);
 		g.drawString("TargetAngle:" + (int) Math.toDegrees(RealRadian) + "°",
 			(int) AmmoX + 20,
 			(int) AmmoY + 40);
+		g.setColor(new Color(0, 255, 0, 60));
 	}
 
 }

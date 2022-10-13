@@ -7,6 +7,7 @@ import javax.swing.UIManager;
 import Game.Canvas;
 import Game.Sys;
 import Game.Timer;
+import Game.Title;
 import Reflection.Log;
 import Window.Elements;
 
@@ -36,6 +37,7 @@ public class Boot
 	public static Sys sys;
 	public static Canvas canvas;
 	public static Elements elements;
+	public static Title title;
 
 	public static void main(String[] args) throws Exception
 	{
@@ -47,6 +49,7 @@ public class Boot
 		timer = new Timer();
 		key = new Key();
 		canvas = new Canvas(FrameW - CanvasW, 0, CanvasW, CanvasH);
+		canvas.setVisible(false);
 		sys = new Sys();
 		elements = new Elements();
 
@@ -54,13 +57,15 @@ public class Boot
 		Log.CallMethodNoThread(
 			"createElement",
 			elements);
+		Log.CallMethodNoThread("createTitle",
+			title);
 		Log.CallMethodNoThread(
 			"LoadTex",
 			sys,
 			new File(
 				PATH + "\\data"));
-		Log.CallMethod(
-			"createGame",
+		Log.CallMethodNoThread(
+			"setEnemyDataBase",
 			sys);
 		Log.CallMethodNoThread(
 			"start",

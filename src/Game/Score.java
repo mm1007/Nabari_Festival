@@ -14,10 +14,14 @@ public class Score implements PaintListener
 
 	Player player;
 
-	public Score(int W, int H)
+	Canvas ScoreCanvas;
+
+	public Score(int W, int H, Canvas ScoreCanvas)
 	{
 		this.W = W;
 		this.H = H;
+		this.ScoreCanvas = ScoreCanvas;
+		this.ScoreCanvas.setVisible(true);
 	}
 
 	public void setPlayer(Player set)

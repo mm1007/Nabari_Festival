@@ -2,7 +2,7 @@ package Game;
 
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import Game.Canvas.PaintListener;
@@ -18,12 +18,12 @@ public abstract class Entity implements PaintListener, TimerListener
 
 	protected Font font = new Font("ＭＳ ゴシック", Font.PLAIN, 20);
 
-	protected Image Tex = null;
-	protected Image AmmoTex = null;;
+	protected BufferedImage Tex = null;
+	protected BufferedImage AmmoTex = null;;
 
 	protected int INTERVAL = 30;
 	protected int Interval = 0;
-	protected final int AMMOSPEED = 5;
+	protected int AMMOSPEED = 5;
 
 	protected int EntitySpeedO = 5;
 	protected int EntitySpeed = EntitySpeedO;

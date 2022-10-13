@@ -21,7 +21,15 @@ public class ScrollPane extends Component
 	@Override
 	public void setBounds(int x, int y, int w, int h)
 	{
-		this.ScrollPane.setBounds(x, y, w, h);
+		this.ScrollPane.setBounds(x,
+			y,
+			w,
+			h);
+	}
+
+	public void setLayoutNull()
+	{
+		this.ScrollPane.setLayout(null);
 	}
 
 	public void setViewport(Component Viewport)

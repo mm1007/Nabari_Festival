@@ -19,13 +19,13 @@ public class Elements implements LogListener
 		"ＭＳ ゴシック",
 		Font.PLAIN,
 		20);
-	private int BeforeReload = 0;
 
 	private Array<String> OutputLog = new Array<String>();
 
 	public Frame Game;
 	//public Frame DevScreen;
 
+	public Canvas Title;
 	public Canvas UI;
 	public Panel DevPanel;
 	public Label DevLabel;
@@ -62,13 +62,9 @@ public class Elements implements LogListener
 			Game,
 			false);
 		Log.CallMethodNoThread(
-			"setLayoutNull",
-			Game);
-		Log.CallMethodNoThread(
-			"add",
+			"addWOC",
 			Game,
-			Boot.canvas,
-			BorderLayout.CENTER);
+			Boot.canvas);
 		Log.CallMethodNoThread(
 			"addKeyListener",
 			Game,
@@ -79,6 +75,9 @@ public class Elements implements LogListener
 			true);
 
 		UI = new Canvas(0, 0, Boot.FrameW - Boot.CanvasW - 1, Boot.FrameH - Boot.DEV_HEIGHT - 40);
+		Log.CallMethodNoThread("setVisible",
+			UI,
+			false);
 		Log.CallMethodNoThread(
 			"setBounds",
 			UI,
@@ -91,10 +90,9 @@ public class Elements implements LogListener
 			UI,
 			Color.blue);
 		Log.CallMethodNoThread(
-			"add",
+			"addWOC",
 			Game,
-			UI,
-			BorderLayout.CENTER);
+			UI);
 
 		/*this.DevScreen = new Frame();
 		Log.CallMethodNoThread("setBounds", DevScreen, 0, 0, Boot.DEV_WIDTH, Boot.DEV_HEIGHT);
@@ -128,6 +126,9 @@ public class Elements implements LogListener
 			0,
 			Boot.DEV_WIDTH,
 			Boot.DEV_HEIGHT);
+		Log.CallMethodNoThread("setVisible",
+			DevPanel,
+			false);
 		Log.CallMethodNoThread(
 			"setFont",
 			DevLabel,
@@ -155,6 +156,24 @@ public class Elements implements LogListener
 			Game,
 			DevPanel.Panel,
 			BorderLayout.CENTER);
+
+		Title = new Canvas(0, 0, Boot.FrameW, Boot.FrameH);
+		Log.CallMethodNoThread(
+			"setBounds",
+			Title,
+			0,
+			0,
+			Boot.FrameW,
+			Boot.FrameH);
+		Log.CallMethodNoThread(
+			"setVisible",
+			Title,
+			false);
+		Log.CallMethod("addWOC",
+			Game,
+			Title);
+
+		Boot.title = new Game.Title(Game, Title);
 	}
 
 	@Override
@@ -165,7 +184,7 @@ public class Elements implements LogListener
 
 		var text = "<html>";
 		for (String Log : OutputLog.List) {
-			text += Log + "<br/><br/>";
+			text += "あああ" + Log + "<br/><br/>";
 		}
 		text += "</html>";
 
@@ -177,7 +196,6 @@ public class Elements implements LogListener
 		if (DevLabel != null) {
 			DevLabel.setText(
 				text);
-			BeforeReload = Boot.timer.Frame;
 		}
 		if (DevLabelScroll != null) {
 			DevLabelScroll.ScrollPane.getVerticalScrollBar().setValue(

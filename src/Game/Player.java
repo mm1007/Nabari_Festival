@@ -2,8 +2,8 @@ package Game;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import Game.Canvas.PaintListener;
 import Game.Timer.TimerListener;
@@ -18,7 +18,7 @@ public class Player extends Entity implements TimerListener, PaintListener
 	public final int AMMOSPEED = 20;
 	public int Score = 0;
 
-	public Player(int FPlayerX, int FPlayerY, Image Tex, Image AmmoTex)
+	public Player(int FPlayerX, int FPlayerY, BufferedImage Tex, BufferedImage AmmoTex)
 	{
 		X = FPlayerX;
 		Y = FPlayerY;
@@ -47,10 +47,7 @@ public class Player extends Entity implements TimerListener, PaintListener
 	{
 		try {
 			Ammo ammo = new Ammo(X, Y - 30, AMMOSPEED, AmmoTex);
-			Log.CallMethod(
-				"setCollision",
-				ammo,
-				Boot.sys.enemy_list.List);
+			ammo.setRadian(Math.toRadians(180));
 			Log.CallMethod(
 				"add",
 				AmmoList,
