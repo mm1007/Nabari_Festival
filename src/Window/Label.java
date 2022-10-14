@@ -27,6 +27,13 @@ public class Label extends Component
 	}
 
 	@Override
+	public void setSize(int w, int h)
+	{
+		this.label.setSize(w,
+			h);
+	}
+
+	@Override
 	public void setVisible(boolean visible)
 	{
 		this.label.setVisible(visible);

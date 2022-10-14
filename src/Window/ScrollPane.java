@@ -9,7 +9,7 @@ import javax.swing.JScrollPane;
 public class ScrollPane extends Component
 {
 
-	JScrollPane ScrollPane;
+	public JScrollPane ScrollPane;
 
 	public ScrollPane()
 	{
@@ -27,9 +27,22 @@ public class ScrollPane extends Component
 			h);
 	}
 
+	@Override
+	public void setSize(int w, int h)
+	{
+		this.ScrollPane.setSize(w,
+			h);
+	}
+
 	public void setLayoutNull()
 	{
 		this.ScrollPane.setLayout(null);
+	}
+
+	@Override
+	public void setVisible(boolean visible)
+	{
+		this.ScrollPane.setVisible(visible);
 	}
 
 	public void setViewport(Component Viewport)

@@ -31,6 +31,13 @@ public class Frame extends Component
 	}
 
 	@Override
+	public void setSize(int w, int h)
+	{
+		this.frame.setSize(w,
+			h);
+	}
+
+	@Override
 	public void setVisible(boolean visible)
 	{
 		this.frame.setVisible(visible);

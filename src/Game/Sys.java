@@ -1,6 +1,7 @@
 package Game;
 
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,10 +13,13 @@ import Game.Canvas.PaintListener;
 import Game.Timer.TimerListener;
 import Main.Array;
 import Main.Boot;
+import Main.Key;
+import Main.Key.KeyListener;
 import Reflection.Log;
 import Window.Frame;
+import Window.ScrollPane;
 
-public class Sys implements TimerListener, PaintListener
+public class Sys implements TimerListener, PaintListener, KeyListener
 {
 
 	public Player player;
@@ -37,17 +41,41 @@ public class Sys implements TimerListener, PaintListener
 	private Frame InFrame;
 	private Canvas GameCanvas;
 	private Timer GameTimer;
+	private Canvas ScoreCanvas;
+	private ScrollPane DevPanel;
 
-	public Sys()
+	public Sys(Frame InFrame, Canvas GameCanvas, Timer GameTimer, Canvas ScoreCanvas, ScrollPane DevPanel)
 	{
 		// TODO 自動生成されたコンストラクター・スタブ
+		this.InFrame = InFrame;
+		this.GameCanvas = GameCanvas;
+		this.GameTimer = GameTimer;
+		this.ScoreCanvas = ScoreCanvas;
+		this.DevPanel = DevPanel;
 	}
 
 	public void destroy()
 	{
-		InFrame.setVisible(false);
+		Key.removeKeyListener(this);
+		GameCanvas.setVisible(false);
 		GameCanvas.removePaintListener(this);
 		GameTimer.removeTimerListener(this);
+		score.destroy();
+		ScoreCanvas.setVisible(false);
+		DevPanel.ScrollPane.setVisible(false);
+		timeline.destroy();
+	}
+
+	public void createSys()
+	{
+		Key.addKeyListener(this);
+		GameCanvas.setVisible(true);
+		Boot.elements.DevLabelScroll.setVisible(true);
+		ScoreCanvas.setVisible(true);
+		GameCanvas.addPaintListener(
+			this);
+		GameTimer.addTimerListener(
+			this);
 	}
 
 	public void LoadTex(File DataFile) throws IOException
@@ -93,7 +121,7 @@ public class Sys implements TimerListener, PaintListener
 			3,
 			60,
 			5,
-			40));
+			30));
 		EnemyDataBaseList.add(new EnemyDataBase(
 			TexIndexOf("敵3_D"),
 			new int[]
@@ -108,7 +136,7 @@ public class Sys implements TimerListener, PaintListener
 			3,
 			60,
 			5,
-			40));
+			30));
 		EnemyDataBaseList.add(new EnemyDataBase(
 			TexIndexOf("敵4_D"),
 			new int[]
@@ -123,7 +151,7 @@ public class Sys implements TimerListener, PaintListener
 			3,
 			100,
 			5,
-			40));
+			30));
 	}
 
 	public BufferedImage TexIndexOf(String name)
@@ -171,19 +199,15 @@ public class Sys implements TimerListener, PaintListener
 		}
 	}
 
-	public void createGame(Frame InFrame, Canvas GameCanvas, Timer GameTimer)
+	public void createGame()
 	{
 		try {
-			this.InFrame = InFrame;
-			this.GameCanvas = GameCanvas;
-			this.GameTimer = GameTimer;
-			this.InFrame.setVisible(true);
-			this.GameCanvas.setVisible(true);
-			Boot.elements.DevPanel.setVisible(true);
-			this.GameCanvas.addPaintListener(
-				this);
-			this.GameTimer.addTimerListener(
-				this);
+			if (player != null)
+				player.destroy();
+			if (enemy_ammo_list != null)
+				for (Enemy destroy : enemy_list.List) {
+					destroy.destroy();
+				}
 			enemy_list = new Array<Enemy>();
 			enemy_ammo_list = new Array<Ammo>();
 			score = new Score(Boot.ScoreW, Boot.ScoreH, Boot.elements.UI);
@@ -218,6 +242,8 @@ public class Sys implements TimerListener, PaintListener
 		try {
 			var time = 0;
 			for (Ammo move : enemy_ammo_list.List) {
+				if (move == null)
+					continue;
 				move.move();
 				if (move.AmmoY > Boot.CanvasH) {
 					Log.CallMethod(
@@ -240,6 +266,7 @@ public class Sys implements TimerListener, PaintListener
 			}
 			time = 0;
 			for (Enemy collision : enemy_list.List) {
+				collision.move();
 				int[] result = collision.collision(
 					player.AmmoList.List);
 				if (result[0] == 1) {
@@ -259,6 +286,12 @@ public class Sys implements TimerListener, PaintListener
 						player.Score += 100;
 					}
 					break;
+				}
+				if (collision.X < 0 || collision.X > Boot.CanvasW || collision.Y < 0
+					|| collision.Y > Boot.CanvasH) {
+					Log.CallMethod("destroy",
+						enemy_list,
+						time);
 				}
 				time++;
 			}
@@ -291,6 +324,23 @@ public class Sys implements TimerListener, PaintListener
 				draw.draw(
 					g);
 		}
+	}
+
+	@Override
+	public void KeyPressed()
+	{
+		// TODO 自動生成されたメソッド・スタブ
+		if (Key.Key[KeyEvent.VK_ESCAPE]) {
+			destroy();
+			Boot.pause.createPause();
+		}
+	}
+
+	@Override
+	public void KeyReleased()
+	{
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
 
 }

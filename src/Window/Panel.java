@@ -19,7 +19,17 @@ public class Panel extends Component
 	@Override
 	public void setBounds(int x, int y, int w, int h)
 	{
-		this.Panel.setBounds(x, y, w, h);
+		this.Panel.setBounds(x,
+			y,
+			w,
+			h);
+	}
+
+	@Override
+	public void setSize(int w, int h)
+	{
+		this.Panel.setSize(w,
+			h);
 	}
 
 	@Override
@@ -36,7 +46,8 @@ public class Panel extends Component
 
 	public void add(Component add, Object contains)
 	{
-		this.Panel.add(add, contains);
+		this.Panel.add(add,
+			contains);
 	}
 
 	public void setLayoutNull()

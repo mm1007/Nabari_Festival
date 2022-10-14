@@ -24,6 +24,11 @@ public class Score implements PaintListener
 		this.ScoreCanvas.setVisible(true);
 	}
 
+	public void destroy()
+	{
+		ScoreCanvas.removePaintListener(this);
+	}
+
 	public void setPlayer(Player set)
 	{
 		this.player = set;

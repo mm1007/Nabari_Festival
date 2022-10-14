@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 
 import Game.Canvas;
+import Game.Pause;
 import Main.Array;
 import Main.Boot;
 import Reflection.Log;
@@ -27,7 +28,6 @@ public class Elements implements LogListener
 
 	public Canvas Title;
 	public Canvas UI;
-	public Panel DevPanel;
 	public Label DevLabel;
 	public ScrollPane DevLabelScroll;
 
@@ -42,11 +42,11 @@ public class Elements implements LogListener
 		throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException
 	{
 		this.Game = new Frame();
+		Log.CallMethodNoThread("setLayoutNull",
+			Game);
 		Log.CallMethodNoThread(
-			"setBounds",
+			"setSize",
 			Game,
-			Boot.DEV_WIDTH,
-			0,
 			Boot.FrameW,
 			Boot.FrameH);
 		Log.CallMethodNoThread(
@@ -62,9 +62,10 @@ public class Elements implements LogListener
 			Game,
 			false);
 		Log.CallMethodNoThread(
-			"addWOC",
+			"add",
 			Game,
-			Boot.canvas);
+			Boot.canvas,
+			BorderLayout.CENTER);
 		Log.CallMethodNoThread(
 			"addKeyListener",
 			Game,
@@ -90,9 +91,10 @@ public class Elements implements LogListener
 			UI,
 			Color.blue);
 		Log.CallMethodNoThread(
-			"addWOC",
+			"add",
 			Game,
-			UI);
+			UI,
+			BorderLayout.CENTER);
 
 		/*this.DevScreen = new Frame();
 		Log.CallMethodNoThread("setBounds", DevScreen, 0, 0, Boot.DEV_WIDTH, Boot.DEV_HEIGHT);
@@ -102,16 +104,8 @@ public class Elements implements LogListener
 		// Log.CallMethodNoThread("setLayoutNull", DevScreen);
 		Log.CallMethodNoThread("setVisible", DevScreen, true);*/
 
-		DevPanel = new Panel();
 		DevLabel = new Label();
 		DevLabelScroll = new ScrollPane();
-		Log.CallMethodNoThread(
-			"setBounds",
-			DevPanel,
-			-1,
-			Boot.FrameH - Boot.DEV_HEIGHT - 39,
-			Boot.DEV_WIDTH,
-			Boot.DEV_HEIGHT);
 		Log.CallMethodNoThread(
 			"setBounds",
 			DevLabel,
@@ -122,12 +116,12 @@ public class Elements implements LogListener
 		Log.CallMethodNoThread(
 			"setBounds",
 			DevLabelScroll,
-			0,
-			0,
+			-1,
+			Boot.FrameH - Boot.DEV_HEIGHT - 39,
 			Boot.DEV_WIDTH,
 			Boot.DEV_HEIGHT);
 		Log.CallMethodNoThread("setVisible",
-			DevPanel,
+			DevLabelScroll,
 			false);
 		Log.CallMethodNoThread(
 			"setFont",
@@ -145,16 +139,16 @@ public class Elements implements LogListener
 			"setBackground",
 			DevLabelScroll,
 			Color.black);
-		Log.CallMethodNoThread(
+		/*Log.CallMethodNoThread(
 			"add",
 			DevPanel,
 			DevLabelScroll.ScrollPane,
-			BorderLayout.CENTER);
+			BorderLayout.CENTER);*/
 		//Log.CallMethodNoThread("add", DevScreen, DevPanel.Panel, BorderLayout.CENTER);
 		Log.CallMethodNoThread(
 			"add",
 			Game,
-			DevPanel.Panel,
+			DevLabelScroll.ScrollPane,
 			BorderLayout.CENTER);
 
 		Title = new Canvas(0, 0, Boot.FrameW, Boot.FrameH);
@@ -169,11 +163,13 @@ public class Elements implements LogListener
 			"setVisible",
 			Title,
 			false);
-		Log.CallMethod("addWOC",
+		Log.CallMethod("add",
 			Game,
-			Title);
+			Title,
+			BorderLayout.CENTER);
 
 		Boot.title = new Game.Title(Game, Title);
+		Boot.pause = new Pause(Game, Title);
 	}
 
 	@Override
@@ -184,7 +180,7 @@ public class Elements implements LogListener
 
 		var text = "<html>";
 		for (String Log : OutputLog.List) {
-			text += "あああ" + Log + "<br/><br/>";
+			text += Log + "<br/><br/>";
 		}
 		text += "</html>";
 

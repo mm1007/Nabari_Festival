@@ -50,6 +50,28 @@ public class Enemy extends Entity implements PaintListener, TimerListener
 		Boot.canvas.addPaintListener(this);
 	}
 
+	public void move()
+	{
+		switch (MovePattern) {
+		case ONLYMOVEX:
+			moveEntityX(
+				EntitySpeed);
+			break;
+		case R_ONLYMOVEX:
+			moveEntityX(
+				-EntitySpeed);
+			break;
+		case ONLYMOVEY:
+			moveEntityY(
+				EntitySpeed);
+			break;
+		case R_ONLYMOVEY:
+			moveEntityY(
+				-EntitySpeed);
+			break;
+		}
+	}
+
 	@Override
 	public void Painted(Graphics2D g)
 	{
@@ -110,24 +132,6 @@ public class Enemy extends Entity implements PaintListener, TimerListener
 					}
 					time++;
 				}
-			}
-			switch (MovePattern) {
-			case ONLYMOVEX:
-				moveEntityX(
-					EntitySpeed);
-				break;
-			case R_ONLYMOVEX:
-				moveEntityX(
-					-EntitySpeed);
-				break;
-			case ONLYMOVEY:
-				moveEntityY(
-					EntitySpeed);
-				break;
-			case R_ONLYMOVEY:
-				moveEntityY(
-					-EntitySpeed);
-				break;
 			}
 			if (X > Boot.CanvasW || X < 0) {
 				remove();

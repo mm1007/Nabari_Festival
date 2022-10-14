@@ -15,8 +15,13 @@ public class ImageMy
 			H,
 			BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D Graphics = (Graphics2D) RotateImage.getGraphics();
-		Graphics.rotate(Math.toDegrees(theta), W / 2, H / 2);
-		Graphics.drawImage(image, 0, 0, null);
+		Graphics.rotate(Math.toDegrees(theta),
+			W / 2,
+			H / 2);
+		Graphics.drawImage(image,
+			0,
+			0,
+			null);
 		return RotateImage;
 	}
 

@@ -5,6 +5,7 @@ import java.io.File;
 import javax.swing.UIManager;
 
 import Game.Canvas;
+import Game.Pause;
 import Game.Sys;
 import Game.Timer;
 import Game.Title;
@@ -38,6 +39,7 @@ public class Boot
 	public static Canvas canvas;
 	public static Elements elements;
 	public static Title title;
+	public static Pause pause;
 
 	public static void main(String[] args) throws Exception
 	{
@@ -50,13 +52,13 @@ public class Boot
 		key = new Key();
 		canvas = new Canvas(FrameW - CanvasW, 0, CanvasW, CanvasH);
 		canvas.setVisible(false);
-		sys = new Sys();
 		elements = new Elements();
 
 		//
 		Log.CallMethodNoThread(
 			"createElement",
 			elements);
+		sys = new Sys(elements.Game, canvas, timer, elements.UI, elements.DevLabelScroll);
 		Log.CallMethodNoThread("createTitle",
 			title);
 		Log.CallMethodNoThread(

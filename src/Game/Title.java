@@ -7,12 +7,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import Game.Button.ButtonListener;
 import Game.Canvas.PaintListener;
-import Game.Title.Button.ButtonListener;
 import Main.Array;
 import Main.Boot;
 import Main.Key;
@@ -38,15 +37,19 @@ public class Title implements PaintListener, KeyListener
 		this.TitleCanvas = TitleCanvas;
 	}
 
-	public void createTitle() throws IOException
+	public void createTitle()
 	{
-		Title = ImageIO.read(new File(Boot.PATH + "\\data\\Title.png"));
-		ButtonList = new Array<>();
-		ButtonList.add(new Button("START", Started));
-		ButtonList.add(new Button("EXIT", Exited));
-		TitleCanvas.setVisible(true);
-		InFrame.addKeyListener(this);
-		TitleCanvas.addPaintListener(this);
+		try {
+			Title = ImageIO.read(new File(Boot.PATH + "\\data\\Title.png"));
+			ButtonList = new Array<>();
+			ButtonList.add(new Button("START", Started));
+			ButtonList.add(new Button("EXIT", Exited));
+			TitleCanvas.setVisible(true);
+			InFrame.addKeyListener(this);
+			TitleCanvas.addPaintListener(this);
+		} catch (Exception e) {
+
+		}
 	}
 
 	public void destroy()
@@ -59,37 +62,15 @@ public class Title implements PaintListener, KeyListener
 	private ButtonListener Started = () ->
 	{
 		destroy();
-		Boot.sys.createGame(Boot.elements.Game,
-			Boot.canvas,
-			Boot.timer);
+		Boot.sys.createSys();
+		Boot.sys.createGame();
 	};
 
 	private ButtonListener Exited = () ->
 	{
-
+		InFrame.frame.dispose();
+		System.exit(0);
 	};
-
-	public class Button
-	{
-		String name;
-		ButtonListener Listener;
-
-		public Button(String name, ButtonListener Listener)
-		{
-			this.name = name;
-			this.Listener = Listener;
-		}
-
-		public void callPushed()
-		{
-			Listener.Pushed();
-		}
-
-		interface ButtonListener
-		{
-			void Pushed();
-		}
-	}
 
 	@Override
 	public void Painted(Graphics2D g)
@@ -128,7 +109,6 @@ public class Title implements PaintListener, KeyListener
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		System.out.println("push");
 		if (Key.Key[KeyEvent.VK_UP] && Selecting - 1 >= 0) {
 			Selecting -= 1;
 		}

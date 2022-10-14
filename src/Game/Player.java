@@ -13,7 +13,7 @@ import Reflection.Log;
 
 public class Player extends Entity implements TimerListener, PaintListener
 {
-	public final int INTERVAL = 5;
+	public final int INTERVAL = 3;
 	public int Interval = 0;
 	public final int AMMOSPEED = 20;
 	public int Score = 0;
@@ -107,41 +107,45 @@ public class Player extends Entity implements TimerListener, PaintListener
 				time++;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+
 		}
 	}
 
 	@Override
 	public void Painted(Graphics2D g)
 	{
-		// TODO 自動生成されたメソッド・スタブ
-		g.setFont(
-			font);
-		g.drawImage(
-			Tex,
-			X - W / 2,
-			Y - H / 2,
-			null);
-		for (Ammo draw : AmmoList.List) {
-			draw.draw(
-				g);
+		try {
+			// TODO 自動生成されたメソッド・スタブ
+			g.setFont(
+				font);
+			g.drawImage(
+				Tex,
+				X - W / 2,
+				Y - H / 2,
+				null);
+			for (Ammo draw : AmmoList.List) {
+				draw.draw(
+					g);
+			}
+			g.setColor(
+				Color.green);
+			g.drawString(
+				"HP",
+				0,
+				(int) (Boot.CanvasH * 0.9));
+			g.drawRect(
+				20,
+				(int) (Boot.CanvasH * 0.9),
+				100,
+				20);
+			g.fillRect(
+				20,
+				(int) (Boot.CanvasH * 0.9),
+				100 * Health / MaxHealth,
+				20);
+		} catch (Exception e) {
+
 		}
-		g.setColor(
-			Color.green);
-		g.drawString(
-			"HP",
-			0,
-			(int) (Boot.CanvasH * 0.9));
-		g.drawRect(
-			20,
-			(int) (Boot.CanvasH * 0.9),
-			100,
-			20);
-		g.fillRect(
-			20,
-			(int) (Boot.CanvasH * 0.9),
-			100 * Health / MaxHealth,
-			20);
 	}
 
 }

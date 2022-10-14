@@ -41,10 +41,14 @@ public class TimeLine implements TimerListener
 		/*for (int[] TimeLine : TimeLineDataBase) {
 			TimeLineList.add(new TimeLineData(TimeLine[0], TimeLine[1], TimeLine[2], TimeLine[3]));
 		}*/
-		System.out.println("aa");
 		createRandomTimeLine(100,
 			Boot.sys.EnemyDataBaseList);
 		Boot.timer.addTimerListener(this);
+	}
+
+	public void destroy()
+	{
+		Boot.timer.removeTimerListener(this);
 	}
 
 	public void createRandomTimeLine(int amount, Array<EnemyDataBase> DataBase)

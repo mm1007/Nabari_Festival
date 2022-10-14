@@ -60,6 +60,18 @@ public abstract class Entity implements PaintListener, TimerListener
 		Health = health;
 	}
 
+	public void destroy()
+	{
+		Boot.timer.removeTimerListener(this);
+		Boot.canvas.removePaintListener(this);
+	}
+
+	public void create()
+	{
+		Boot.timer.addTimerListener(this);
+		Boot.canvas.addPaintListener(this);
+	}
+
 	public void remove()
 	{
 		Boot.timer.removeTimerListener(this);
@@ -77,7 +89,9 @@ public abstract class Entity implements PaintListener, TimerListener
 		try {
 			Ammo ammo = new Ammo(X, Y - 30, AMMOSPEED, AmmoTex);
 			//Log.CallMethod("setCollision", ammo, Boot.sys.enemy_list.List);
-			Log.CallMethod("add", AmmoList, ammo);
+			Log.CallMethod("add",
+				AmmoList,
+				ammo);
 		} catch (Exception e) {
 
 		}
@@ -95,30 +109,37 @@ public abstract class Entity implements PaintListener, TimerListener
 	 */
 	public int[] collision(ArrayList<Ammo> Ammo)
 	{
-		var time = 0;
-		int[] ret =
-		{
-			0, 0
-		};
-		for (Ammo collision : Ammo) {
-			var DistanceX = Math.abs(collision.AmmoX - X);
-			var DistanceY = Math.abs(collision.AmmoY - Y);
-			var minDistanceX = CollisionW / 2 + collision.AmmoW / 2;
-			var minDistanceY = CollisionH / 2 + collision.AmmoH / 2;
+		try {
+			var time = 0;
+			int[] ret =
+			{
+				0, 0
+			};
+			for (Ammo collision : Ammo) {
+				var DistanceX = Math.abs(collision.AmmoX - X);
+				var DistanceY = Math.abs(collision.AmmoY - Y);
+				var minDistanceX = CollisionW / 2 + collision.AmmoW / 2;
+				var minDistanceY = CollisionH / 2 + collision.AmmoH / 2;
 
-			if (minDistanceX < DistanceX) {
-				time++;
-				continue;
+				if (minDistanceX < DistanceX) {
+					time++;
+					continue;
+				}
+				if (minDistanceY < DistanceY) {
+					time++;
+					continue;
+				}
+				ret[0] = 1;
+				ret[1] = time;
+				return ret;
 			}
-			if (minDistanceY < DistanceY) {
-				time++;
-				continue;
-			}
-			ret[0] = 1;
-			ret[1] = time;
 			return ret;
+		} catch (Exception e) {
+			return new int[]
+			{
+				0, 0
+			};
 		}
-		return ret;
 	}
 
 	@Override
