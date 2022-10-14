@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 
 import Game.Canvas;
+import Game.GameOver;
 import Game.Pause;
 import Main.Array;
 import Main.Boot;
@@ -170,6 +171,7 @@ public class Elements implements LogListener
 
 		Boot.title = new Game.Title(Game, Title);
 		Boot.pause = new Pause(Game, Title);
+		Boot.gameover = new GameOver(Game, Title);
 	}
 
 	@Override

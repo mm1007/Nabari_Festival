@@ -24,11 +24,7 @@ public class Sys implements TimerListener, PaintListener, KeyListener
 
 	public Player player;
 
-	public Score score;
-
 	public int Score = 0;
-
-	public TimeLine timeline;
 
 	public static HashMap<String, BufferedImage> Tex;
 
@@ -43,8 +39,12 @@ public class Sys implements TimerListener, PaintListener, KeyListener
 	private Timer GameTimer;
 	private Canvas ScoreCanvas;
 	private ScrollPane DevPanel;
+	private TimeLine EnemyTimeLine;
+	private Score GameScore;
 
-	public Sys(Frame InFrame, Canvas GameCanvas, Timer GameTimer, Canvas ScoreCanvas, ScrollPane DevPanel)
+	public Sys(Frame InFrame, Canvas GameCanvas, Timer GameTimer, TimeLine EnemyTimeLine, Score GameScore,
+		Canvas ScoreCanvas,
+		ScrollPane DevPanel)
 	{
 		// TODO 自動生成されたコンストラクター・スタブ
 		this.InFrame = InFrame;
@@ -52,6 +52,8 @@ public class Sys implements TimerListener, PaintListener, KeyListener
 		this.GameTimer = GameTimer;
 		this.ScoreCanvas = ScoreCanvas;
 		this.DevPanel = DevPanel;
+		this.EnemyTimeLine = EnemyTimeLine;
+		this.GameScore = GameScore;
 	}
 
 	public void destroy()
@@ -60,10 +62,10 @@ public class Sys implements TimerListener, PaintListener, KeyListener
 		GameCanvas.setVisible(false);
 		GameCanvas.removePaintListener(this);
 		GameTimer.removeTimerListener(this);
-		score.destroy();
+		GameScore.destroy();
 		ScoreCanvas.setVisible(false);
 		DevPanel.ScrollPane.setVisible(false);
-		timeline.destroy();
+		EnemyTimeLine.destroy();
 	}
 
 	public void createSys()
@@ -71,11 +73,48 @@ public class Sys implements TimerListener, PaintListener, KeyListener
 		Key.addKeyListener(this);
 		GameCanvas.setVisible(true);
 		Boot.elements.DevLabelScroll.setVisible(true);
+		if (GameScore != null)
+			GameScore.create();
 		ScoreCanvas.setVisible(true);
-		GameCanvas.addPaintListener(
-			this);
-		GameTimer.addTimerListener(
-			this);
+		GameCanvas.addPaintListener(this);
+		GameTimer.addTimerListener(this);
+		EnemyTimeLine.createTimeLine();
+	}
+
+	public void createGame()
+	{
+		try {
+			Boot.timer.setFrame(0);
+			if (player != null)
+				player.destroy();
+			if (enemy_ammo_list != null)
+				for (Enemy destroy : enemy_list.List) {
+					destroy.destroy();
+				}
+			enemy_list = new Array<Enemy>();
+			enemy_ammo_list = new Array<Ammo>();
+			GameScore.setPaintListener(
+				Boot.elements.UI);
+			BufferedImage PlayerTex = TexIndexOf(
+				"自機_U");
+			BufferedImage AmmoTex = TexIndexOf(
+				"弾Blue_D");
+			this.player = new Player(Boot.FPlayerX, Boot.FPlayerY, PlayerTex, AmmoTex);
+			GameScore.setPlayer(player);
+			setEnemyDataBase();
+			EnemyTimeLine.create();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		/*var time = 0;
+		for (int t = 0; t < 8; t++) {
+			for (int i = 0; i < 3; i++) {
+				if (time % 2 == 0)
+					Log.CallMethod("add", enemy_list, new Enemy(80 * t + 60, 80 * i + 50));
+				time++;
+			}
+		}*/
 	}
 
 	public void LoadTex(File DataFile) throws IOException
@@ -92,6 +131,7 @@ public class Sys implements TimerListener, PaintListener, KeyListener
 	public void setEnemyDataBase()
 	{
 		EnemyDataBaseList = new Array<>();
+		EnemyDataBaseList.List.clear();
 		EnemyDataBaseList.add(new EnemyDataBase(
 			TexIndexOf("敵_D"),
 			new int[]
@@ -199,45 +239,7 @@ public class Sys implements TimerListener, PaintListener, KeyListener
 		}
 	}
 
-	public void createGame()
-	{
-		try {
-			if (player != null)
-				player.destroy();
-			if (enemy_ammo_list != null)
-				for (Enemy destroy : enemy_list.List) {
-					destroy.destroy();
-				}
-			enemy_list = new Array<Enemy>();
-			enemy_ammo_list = new Array<Ammo>();
-			score = new Score(Boot.ScoreW, Boot.ScoreH, Boot.elements.UI);
-			score.setPaintListener(
-				Boot.elements.UI);
-
-			BufferedImage PlayerTex = TexIndexOf(
-				"自機_U");
-			BufferedImage AmmoTex = TexIndexOf(
-				"弾Blue_D");
-			this.player = new Player(Boot.FPlayerX, Boot.FPlayerY, PlayerTex, AmmoTex);
-			score.setPlayer(player);
-			setEnemyDataBase();
-			this.timeline = new TimeLine();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		/*var time = 0;
-		for (int t = 0; t < 8; t++) {
-			for (int i = 0; i < 3; i++) {
-				if (time % 2 == 0)
-					Log.CallMethod("add", enemy_list, new Enemy(80 * t + 60, 80 * i + 50));
-				time++;
-			}
-		}*/
-	}
-
-	@Override
-	public void TimerEvent()
+	public void moveAmmo()
 	{
 		try {
 			var time = 0;
@@ -264,7 +266,15 @@ public class Sys implements TimerListener, PaintListener, KeyListener
 				} else
 					time++;
 			}
-			time = 0;
+		} catch (Exception e) {
+
+		}
+	}
+
+	public void chkCollisionE()
+	{
+		try {
+			var time = 0;
 			for (Enemy collision : enemy_list.List) {
 				collision.move();
 				int[] result = collision.collision(
@@ -285,16 +295,22 @@ public class Sys implements TimerListener, PaintListener, KeyListener
 							time);
 						player.Score += 100;
 					}
-					break;
-				}
-				if (collision.X < 0 || collision.X > Boot.CanvasW || collision.Y < 0
+				} else if (collision.X < 0 || collision.X > Boot.CanvasW || collision.Y < 0
 					|| collision.Y > Boot.CanvasH) {
 					Log.CallMethod("destroy",
 						enemy_list,
 						time);
-				}
-				time++;
+				} else
+					time++;
 			}
+		} catch (Exception e) {
+
+		}
+	}
+
+	public void chkCollisionP()
+	{
+		try {
 			int[] result = player.collision(
 				enemy_ammo_list.List);
 			if (result[0] == 1) {
@@ -308,8 +324,24 @@ public class Sys implements TimerListener, PaintListener, KeyListener
 					-10);
 				if (player.Health <= 0) {
 					player.remove();
+					destroy();
+					Boot.gameover.createGameOver();
 				}
 			}
+		} catch (
+
+		Exception e) {
+
+		}
+	}
+
+	@Override
+	public void TimerEvent()
+	{
+		try {
+			moveAmmo();
+			chkCollisionE();
+			chkCollisionP();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

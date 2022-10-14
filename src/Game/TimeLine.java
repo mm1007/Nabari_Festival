@@ -11,48 +11,41 @@ import Reflection.Log;
 
 public class TimeLine implements TimerListener
 {
+	int BeforeFrame;
 
-	public final int[][] TimeLineDataBase =
-	{
-		{
-			50, 0, 100, Enemy.ONLYMOVEX
-		},
-		{
-			100, 0, 100, Enemy.ONLYMOVEX
-		},
-		{
-			150, 0, 100, Enemy.ONLYMOVEX
-		},
-		{
-			50, Boot.CanvasW, 100, Enemy.R_ONLYMOVEX
-		},
-		{
-			100, Boot.CanvasW, 100, Enemy.R_ONLYMOVEX
-		},
-		{
-			150, Boot.CanvasW, 100, Enemy.R_ONLYMOVEX
-		}
-	};
-
-	Array<TimeLineData> TimeLineList = new Array<TimeLineData>();
+	Array<TimeLineData> TimeLineList;
 
 	public TimeLine()
 	{
 		/*for (int[] TimeLine : TimeLineDataBase) {
 			TimeLineList.add(new TimeLineData(TimeLine[0], TimeLine[1], TimeLine[2], TimeLine[3]));
 		}*/
-		createRandomTimeLine(100,
+	}
+
+	public void create()
+	{
+		createRandomTimeLine(1000,
 			Boot.sys.EnemyDataBaseList);
-		Boot.timer.addTimerListener(this);
 	}
 
 	public void destroy()
 	{
+		BeforeFrame = Boot.timer.Frame;
 		Boot.timer.removeTimerListener(this);
+		Boot.timer.removeTimerListener(this);
+		Boot.timer.removeTimerListener(this);
+	}
+
+	public void createTimeLine()
+	{
+		//Boot.timer.setFrame(BeforeFrame);
+		Boot.timer.addTimerListener(this);
 	}
 
 	public void createRandomTimeLine(int amount, Array<EnemyDataBase> DataBase)
 	{
+		TimeLineList = new Array<TimeLineData>();
+		TimeLineList.List.clear();
 		int[] W =
 		{
 			0, Boot.CanvasW
@@ -63,7 +56,7 @@ public class TimeLine implements TimerListener
 		};
 		Random RD = new Random();
 		for (int k = 0; k < amount; k++) {
-			int Frame = RD.nextInt(5000);
+			int Frame = RD.nextInt(50000);
 			int DataIndex = RD.nextInt(0,
 				DataBase.size());
 			EnemyDataBase Data = DataBase.get(DataIndex);

@@ -71,9 +71,11 @@ public class Ammo
 			break;
 		case ONLYMOVEX:
 			AmmoX += AmmoSpeed;
+			Radian = Math.toRadians(90);
 			break;
 		case R_ONLYMOVEX:
 			AmmoX -= AmmoSpeed;
+			Radian = Math.toRadians(270);
 			break;
 		case TRACKING:
 			if (TrackingEntity == null)

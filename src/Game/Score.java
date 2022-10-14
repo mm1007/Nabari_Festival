@@ -21,12 +21,16 @@ public class Score implements PaintListener
 		this.W = W;
 		this.H = H;
 		this.ScoreCanvas = ScoreCanvas;
-		this.ScoreCanvas.setVisible(true);
 	}
 
 	public void destroy()
 	{
 		ScoreCanvas.removePaintListener(this);
+	}
+
+	public void create()
+	{
+		ScoreCanvas.addPaintListener(this);
 	}
 
 	public void setPlayer(Player set)

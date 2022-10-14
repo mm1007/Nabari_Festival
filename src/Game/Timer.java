@@ -21,12 +21,19 @@ public class Timer
 
 	public void addTimerListener(TimerListener add)
 	{
-		this.ELL.add(TimerListener.class, add);
+		this.ELL.add(TimerListener.class,
+			add);
 	}
 
 	public void removeTimerListener(TimerListener remove)
 	{
-		this.ELL.remove(TimerListener.class, remove);
+		this.ELL.remove(TimerListener.class,
+			remove);
+	}
+
+	public void setFrame(int frame)
+	{
+		Frame = frame;
 	}
 
 	public void start()

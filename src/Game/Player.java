@@ -94,6 +94,8 @@ public class Player extends Entity implements TimerListener, PaintListener
 				Interval--;
 			var time = 0;
 			for (Ammo move : AmmoList.List) {
+				if (move == null)
+					continue;
 				move.move();
 				if (move.AmmoY < 0) {
 					Log.CallMethod(
@@ -107,7 +109,7 @@ public class Player extends Entity implements TimerListener, PaintListener
 				time++;
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -131,7 +133,7 @@ public class Player extends Entity implements TimerListener, PaintListener
 				Color.green);
 			g.drawString(
 				"HP",
-				0,
+				10,
 				(int) (Boot.CanvasH * 0.9));
 			g.drawRect(
 				20,

@@ -5,8 +5,11 @@ import java.io.File;
 import javax.swing.UIManager;
 
 import Game.Canvas;
+import Game.GameOver;
 import Game.Pause;
+import Game.Score;
 import Game.Sys;
+import Game.TimeLine;
 import Game.Timer;
 import Game.Title;
 import Reflection.Log;
@@ -38,8 +41,11 @@ public class Boot
 	public static Sys sys;
 	public static Canvas canvas;
 	public static Elements elements;
+	public static TimeLine timeline;
 	public static Title title;
 	public static Pause pause;
+	public static GameOver gameover;
+	public static Score score;
 
 	public static void main(String[] args) throws Exception
 	{
@@ -53,12 +59,14 @@ public class Boot
 		canvas = new Canvas(FrameW - CanvasW, 0, CanvasW, CanvasH);
 		canvas.setVisible(false);
 		elements = new Elements();
+		timeline = new TimeLine();
 
 		//
 		Log.CallMethodNoThread(
 			"createElement",
 			elements);
-		sys = new Sys(elements.Game, canvas, timer, elements.UI, elements.DevLabelScroll);
+		score = new Score(Boot.ScoreW, Boot.ScoreH, Boot.elements.UI);
+		sys = new Sys(elements.Game, canvas, timer, timeline, score, elements.UI, elements.DevLabelScroll);
 		Log.CallMethodNoThread("createTitle",
 			title);
 		Log.CallMethodNoThread(
