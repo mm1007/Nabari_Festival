@@ -24,7 +24,7 @@ public class TimeLine implements TimerListener
 
 	public void create()
 	{
-		createRandomTimeLine(1000,
+		createRandomTimeLine(1500,
 			Boot.sys.EnemyDataBaseList);
 	}
 
