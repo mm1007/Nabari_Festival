@@ -3,6 +3,8 @@ package Game;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,14 +15,18 @@ import java.util.Collections;
 
 import Game.Canvas.PaintListener;
 import Main.Array;
+import Main.Boot;
+import Main.Key;
+import Window.Frame;
 
-public class Ranking implements PaintListener
+public class Ranking implements PaintListener, KeyListener
 {
 	Canvas Ranking;
+	Frame InFrame;
 
 	Font RankingFont = new Font("ＭＳ ゴシック", Font.PLAIN, 50);
 
-	private static final String URL = "jdbc:mysql://localhost:7782/gamedb";
+	private static final String URL = "jdbc:mysql://172.23.101.51:7782/gamedb";
 	private static final String USER = "root";
 	private static final String PASSWORD = "mm1007";
 	private static final String GETDATA = "select * from score;";
@@ -30,19 +36,25 @@ public class Ranking implements PaintListener
 
 	private Array<RankingData> RankingData;
 
-	public Ranking(Canvas Ranking) throws SQLException, ClassNotFoundException
+	public Ranking(Frame InFrame, Canvas Ranking)
 	{
-		Class.forName("com.mysql.jdbc.Driver");
-		connection = DriverManager.getConnection(URL,
-			USER,
-			PASSWORD);
-		this.Ranking = Ranking;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			connection = DriverManager.getConnection(URL,
+				USER,
+				PASSWORD);
+			this.Ranking = Ranking;
+			this.InFrame = InFrame;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void create()
 	{
 		try {
 			RankingData = getData();
+			InFrame.addKeyListener(this);
 			Ranking.setVisible(true);
 			Ranking.addPaintListener(this);
 		} catch (Exception e) {
@@ -52,6 +64,8 @@ public class Ranking implements PaintListener
 
 	public void destroy()
 	{
+		InFrame.removeKeyListener(this);
+		Ranking.setVisible(false);
 		Ranking.removePaintListener(this);
 	}
 
@@ -106,8 +120,37 @@ public class Ranking implements PaintListener
 			g.drawString(data.score + " 点",
 				500,
 				time * 50 + 100);
-
 			time++;
+			if (time >= 10) {
+				break;
+			}
 		}
+		g.drawString("ESC:もどる",
+			20,
+			Boot.FrameH - 100);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e)
+	{
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e)
+	{
+		// TODO 自動生成されたメソッド・スタブ
+		if (Key.Key[KeyEvent.VK_ESCAPE]) {
+			destroy();
+			Boot.title.createTitle();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e)
+	{
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
 }

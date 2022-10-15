@@ -21,6 +21,7 @@ public class GameOver implements KeyListener, PaintListener
 	Canvas PauseCanvas;
 
 	int Selecting;
+	String name;
 
 	Array<Button> ButtonList;
 
@@ -32,6 +33,7 @@ public class GameOver implements KeyListener, PaintListener
 
 	public void createGameOver()
 	{
+		name = "";
 		ButtonList = new Array<>();
 		ButtonList.List.clear();
 		ButtonList.add(new Button("Restart", Restart));
@@ -78,6 +80,9 @@ public class GameOver implements KeyListener, PaintListener
 			g.drawString("Score:" + Boot.sys.player.Score,
 				100,
 				100);
+			g.drawString("Name:" + name,
+				100,
+				200);
 			g.fillOval(20,
 				Selecting * 100 + PauseCanvas.getHeight() / 2 - 30,
 				20,
@@ -97,15 +102,32 @@ public class GameOver implements KeyListener, PaintListener
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		// TODO 自動生成されたメソッド・スタブ
-		if (Key.Key[KeyEvent.VK_UP] && Selecting - 1 >= 0) {
-			Selecting -= 1;
-		}
-		if (Key.Key[KeyEvent.VK_DOWN] && Selecting + 1 < ButtonList.size()) {
-			Selecting += 1;
-		}
-		if (Key.Key[KeyEvent.VK_Z]) {
-			ButtonList.get(Selecting).callPushed();
+		try {
+			// TODO 自動生成されたメソッド・スタブ
+			if (Key.Key[KeyEvent.VK_UP] && Selecting - 1 >= 0) {
+				Selecting -= 1;
+			}
+			if (Key.Key[KeyEvent.VK_DOWN] && Selecting + 1 < ButtonList.size()) {
+				Selecting += 1;
+			}
+			if (Key.Key[KeyEvent.VK_ENTER]) {
+				if (!name.equals("")) {
+					Boot.ranking.insertData(name,
+						Boot.sys.player.Score);
+				} else {
+					Boot.ranking.insertData("No Name",
+						Boot.sys.player.Score);
+				}
+				ButtonList.get(Selecting).callPushed();
+			}
+			if (Character.isLetterOrDigit(e.getKeyChar()) && name.length() < 15)
+				name += e.getKeyChar();
+			if (Key.Key[KeyEvent.VK_BACK_SPACE] && name.length() > 0) {
+				name = name.substring(0,
+					name.length() - 1);
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}
 

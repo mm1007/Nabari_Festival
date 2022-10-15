@@ -73,7 +73,7 @@ public class Title implements PaintListener, KeyListener
 			destroy();
 			Boot.ranking.create();
 		} catch (Exception e) {
-			
+
 		}
 	};
 
@@ -101,7 +101,8 @@ public class Title implements PaintListener, KeyListener
 					time * 100 + TitleCanvas.getHeight() / 2);
 				time++;
 			}
-			g.fillOval(TitleCanvas.getWidth() / 2 - 100,
+			g.fillOval(TitleCanvas.getWidth() / 2
+				- 120,
 				Selecting * 100 + TitleCanvas.getHeight() / 2 - 10,
 				20,
 				20);
@@ -126,7 +127,7 @@ public class Title implements PaintListener, KeyListener
 		if (Key.Key[KeyEvent.VK_DOWN] && Selecting + 1 < ButtonList.size()) {
 			Selecting += 1;
 		}
-		if (Key.Key[KeyEvent.VK_Z]) {
+		if (Key.Key[KeyEvent.VK_ENTER]) {
 			ButtonList.get(Selecting).callPushed();
 		}
 	}

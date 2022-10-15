@@ -175,7 +175,7 @@ public class Elements implements LogListener
 		Boot.title = new Game.Title(Game, Title);
 		Boot.pause = new Pause(Game, Title);
 		Boot.gameover = new GameOver(Game, Title);
-		Boot.ranking = new Ranking(Title);
+		Boot.ranking = new Ranking(Game, Title);
 	}
 
 	@Override

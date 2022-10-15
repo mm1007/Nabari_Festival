@@ -107,7 +107,7 @@ public class Pause implements PaintListener, KeyListener
 		if (Key.Key[KeyEvent.VK_DOWN] && Selecting + 1 < ButtonList.size()) {
 			Selecting += 1;
 		}
-		if (Key.Key[KeyEvent.VK_Z]) {
+		if (Key.Key[KeyEvent.VK_ENTER]) {
 			ButtonList.get(Selecting).callPushed();
 		}
 	}
