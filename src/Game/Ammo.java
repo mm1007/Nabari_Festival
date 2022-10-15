@@ -1,6 +1,5 @@
 package Game;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -114,7 +113,7 @@ public class Ammo
 			(int) AmmoX - AmmoW / 2,
 			(int) AmmoY - AmmoH / 2,
 			null);
-		g.setColor(new Color(Color.green.getRed(), Color.green.getGreen(), Color.green.getBlue(), 100));
+		/*g.setColor(new Color(Color.green.getRed(), Color.green.getGreen(), Color.green.getBlue(), 100));
 		g.drawLine(
 			(int) (Math.cos(Radian) * 50 + AmmoX),
 			(int) (Math.sin(Radian) * 50 + AmmoY),
@@ -132,7 +131,7 @@ public class Ammo
 		g.drawString("TargetAngle:" + (int) Math.toDegrees(RealRadian) + "°",
 			(int) AmmoX + 20,
 			(int) AmmoY + 40);
-		g.setColor(new Color(0, 255, 0, 60));
+		g.setColor(new Color(0, 255, 0, 60));*/
 	}
 
 }
