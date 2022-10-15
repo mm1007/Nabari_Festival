@@ -43,6 +43,7 @@ public class Title implements PaintListener, KeyListener
 			Title = ImageIO.read(new File(Boot.PATH + "\\data\\Title.png"));
 			ButtonList = new Array<>();
 			ButtonList.add(new Button("START", Started));
+			ButtonList.add(new Button("RANKING", Ranking));
 			ButtonList.add(new Button("EXIT", Exited));
 			TitleCanvas.setVisible(true);
 			InFrame.addKeyListener(this);
@@ -64,6 +65,16 @@ public class Title implements PaintListener, KeyListener
 		destroy();
 		Boot.sys.createSys();
 		Boot.sys.createGame();
+	};
+
+	private ButtonListener Ranking = () ->
+	{
+		try {
+			destroy();
+			Boot.ranking.create();
+		} catch (Exception e) {
+			
+		}
 	};
 
 	private ButtonListener Exited = () ->

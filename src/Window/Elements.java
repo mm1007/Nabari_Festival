@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 
 import Game.Canvas;
 import Game.GameOver;
 import Game.Pause;
+import Game.Ranking;
 import Main.Array;
 import Main.Boot;
 import Reflection.Log;
@@ -40,7 +42,8 @@ public class Elements implements LogListener
 	}
 
 	public void createElement()
-		throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException
+		throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
+		ClassNotFoundException, SQLException
 	{
 		this.Game = new Frame();
 		Log.CallMethodNoThread("setLayoutNull",
@@ -172,6 +175,7 @@ public class Elements implements LogListener
 		Boot.title = new Game.Title(Game, Title);
 		Boot.pause = new Pause(Game, Title);
 		Boot.gameover = new GameOver(Game, Title);
+		Boot.ranking = new Ranking(Title);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import javax.swing.UIManager;
 import Game.Canvas;
 import Game.GameOver;
 import Game.Pause;
+import Game.Ranking;
 import Game.Score;
 import Game.Sys;
 import Game.TimeLine;
@@ -46,6 +47,7 @@ public class Boot
 	public static Pause pause;
 	public static GameOver gameover;
 	public static Score score;
+	public static Ranking ranking;
 
 	public static void main(String[] args) throws Exception
 	{
